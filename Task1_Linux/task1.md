@@ -698,7 +698,7 @@ ln -s [target file] [Symbolic filename]
 
 ****
 
- #### Hard Links
+#### Hard Links
 - Hard links are low-level links that the system uses to create components of the file system itself, such as files and directories. A hard link will create a link in the same filesystem with 2 corresponding inode entries pointing to the same physical content (same inode number because they point to the same data).
 
 **Syntax** 
@@ -710,4 +710,87 @@ ln [srcFile] [desFile]
 - You can see the inode number of file **test1.txt** and **test.txt** is the same (5380022). When we delete **test1.txt**, the content of **test.txt** file still there.
 
 ![](src/hard_link2.png)
+
+- The content in **test.txt** is still there because when deleting the **test1.txt** file, the system only deletes the link count in the file's inode by 1.
+-  When using the `rm` command to delete a file, one hard link is reduced. When the number of hard links is reduced to 0, the contents of the file can no longer be accessed
+
+
+<div id='11'></div>
+
+### 11. Compress and Decompress
+
+#### `Gzip`
+- The `gzip` command in Linux/Unix is used to compress/decompress data.
+
+**Compress a file**
+- Reduce the size of the file by applying compression
+```
+gzip file_name
+```
+![](src/gzip.png)
+
+
   
+**Command:**
+- Compress multiple files into multiple archives
+```
+gzip file_name_01 file_name_02 file_name_03
+```
+![](src/gzip_1.png)
+
+
+
+
+**Command:**
+- Output more information about the action of the command
+```
+gzip -v file_name
+```
+![](src/gzip_2.png)
+
+
+#### `GUnzip`
+- The `gunzip` command is an antonym command of [`gzip` command. In other words, it decompresses files deflated by the `gzip` command.
+- `gunzip` takes a list of files on its command line and replaces each file whose name ends with _.gz_, _-gz_, _.z_, _-z_, or *\_z* (ignoring case) and which begins with the correct magic number with an uncompressed file without the original extension. `gunzip` also recognizes the special extensions *.tgz* and *.taz* as shorthands for *.tar.gz* and  *.tar.Z*  respectively.
+
+**Example**
+
+1. Uncompress a file
+
+```
+gunzip filename.gz
+```
+
+![](src/gunzip.png)
+
+2. Recursively uncompress content inside a directory, that match extension (suffix) compressed formats accepted by `gunzip`:
+
+```
+gunzip -r directory_name/
+```
+
+![](src/gunzip_1.png)
+
+|**Short Flag**|**Long Flag**|**Description**|
+|:---|:---|:---|
+|-c|--stdout|write on standard output, keep original files unchanged|
+|-h|--help|give help information|
+|-k|--keep|keep (don't delete) input files|
+|-l|--list|list compressed file contents|
+|-q|--quiet|suppress all warnings|
+|-r|--recursive|operate recursively on directories|
+|-S|--suffix=SUF|use suffix SUF on compressed files|
+||--synchronous|synchronous output (safer if system crashes, but slower)|
+|-t|--test|test compressed file integrity|
+|-v|--verbose|verbose mode|
+|-V|--version|display version number|
+
+
+#### `tar` command
+- The `tar` command  stands for tape archive, is used to create Archive and extract the Archive files. This command  provides archiving functionality in Linux. We can use tar command to create compressed or uncompressed Archive files and also maintain and modify them. 
+
+**Examples:**
+1. To create a tar file in another directory
+```
+tar -cvf file_name dir_name
+```
