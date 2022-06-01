@@ -8,7 +8,15 @@
 1. <a href='#5'> List Files and Directories
 1. <a href='#6'> Actions with Files/Directories(move/copy,....)        
 1. <a href='#7'> Basic and advanced decentralization.
-1. <a href='#8'> 
+1. <a href='#8'> Editor 
+1. <a href='#9'> Mount/Unmount
+2. <a href='#10'> Symbolic Links / Hard Links
+3. <a href='#11'> 
+4. <a href='#12'> Process Monitor
+5. <a href='#13'> List Files and Directories
+6. <a href='#14'> Actions with Files/Directories(move/copy,....)        
+7. <a href='#15'> Basic and advanced decentralization.
+8. <a href='#16'> Editor 
 ***
 
 <div id='1'></div>
@@ -527,20 +535,18 @@ rm [OPTION] [FILE|DIRECTORY]
 ***
 
 <div id='7'></div>
-###  7. Basic and advanced decentralization.
 
+### 7. Basic and advanced decentralization
 #### `chmod` command
 - The `chmod` command allows you to change the permissions on a file using either a symbolic or numeric mode or a reference file.
 
 **Examples**
 1. Change the permission of a file using symbolic mode:
-
 ```
 chmod u=rwx,g=rx,o=r hello1.txt
 ```
 
 The command above means :
-
 - user can read, write, execute `myfile`
 - group can read, execute `myfile`
 - other can read `myfile`
@@ -597,3 +603,111 @@ chown user:group file.txt
 **Syntax**
 ```
 chgrp [OPTION]... GROUP FILE...
+```
+![](src/chgrp.png)
+
+***
+
+<div id='8'></div>
+
+### 8. Editor
+#### `vim` command
+- The `vim` is a text editor for Unix that comes with Linux, BSD, and macOS. It is known to be fast and powerful, partly because it is a small program that can run in a terminal (although it has a graphical interface). 
+- `vim` stands for "Vi Improved", and is an improved clone of the `vi` editor.
+
+
+**Syntax:**
+
+```
+vim [FILE_PATH/FILE_NAME]
+```
+
+**Example:**
+1. To open the file named "demo.txt" from your current directory:
+
+```
+vim test1.txt
+```
+![](src/vim_1.png)
+
+![](src/vim_2.png)
+
+2. To open the file in a specific directory:
+
+```
+vim {File_Path/filename}
+```
+![](src/vim_3.png)
+
+The command to save the file and exit vim editor: ```:wq```
+
+The command to exit vim editor without saving the file: ```:q!``` 
+
+****
+
+#### `nano` command
+- Nano text editor is pre-installed on macOS and most Linux distros. It's an alternative to `vi` and `vim`.
+
+**Examples:**
+
+1. Open an existing file, type `nano` followed by the path to the file:
+
+```
+nano /path/to/filename
+```
+![](src/nano.png)
+
+2. Create a new file, type `nano` followed by the filename:
+
+```
+nano filename
+```
+![](src/nano_1.png)
+
+
+<div id='9'></div>
+
+### 9. Mount/Unmount
+
+
+- The `umount` command **unmounts** a mounted filesystem, informing the system to complete any pending read or write operations, and safely detaching it.
+
+#### `mount` command
+
+- The `mount` command mounts a storage device or `filesystem`, making it accessible and attaching it to an existing directory structure.
+
+**Examples:**
+
+
+<div id='10'></div>
+
+### 10. Symbolic Links / Hard Links
+
+#### Symbolic Links
+- Symbolic Link in the computer industry is a term that refers to a file that references another file or directory in the form of a relative or absolute path. It is also often referred to as `Symlink` or `softlink`.
+
+**Syntax:**
+``` 
+ln -s [target file] [Symbolic filename]
+```
+![](src/ln_s.png )
+
+- To remove symbolic link, we use `unlink` or `rm`
+
+![](src/unlink.png)
+
+****
+
+ #### Hard Links
+- Hard links are low-level links that the system uses to create components of the file system itself, such as files and directories. A hard link will create a link in the same filesystem with 2 corresponding inode entries pointing to the same physical content (same inode number because they point to the same data).
+
+**Syntax** 
+```
+ln [srcFile] [desFile]
+```
+![](src/hard_link.png)
+
+- You can see the inode number of file **test1.txt** and **test.txt** is the same (5380022). When we delete **test1.txt**, the content of **test.txt** file still there.
+
+![](src/hard_link2.png)
+  
