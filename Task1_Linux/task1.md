@@ -1,5 +1,5 @@
 # **LINUX_TRAINING**
-![](src/index.png)
+![](src/index.png) 
 
 1. <a href='#1'> Check Diskspace
 1. <a href='#2'> Check Partitions
@@ -847,4 +847,27 @@ vnstat -d -i wlp0s20f3
 ```
 ![](src/vnstat_d.png)
 
+****
+
+#### `nload` command
+- `nload` is a tool on Linux to monitor network traffic and bandwidth usage in real time. It helps you to monitor IN(incoming) and OUT(outgoing) traffic using graphs and provides a lot of additional information such as total amount of data transferred and average/minimum/minimum network usage multi.
+
+![](src/nload.png)
+
+
+**Examples**
+1. Use ``nload -m`` to see all network card on your computer
+
+![](src/nload_m.png)
+
+2. Use ``-a`` and interval to set the length in seconds of the average (default is 300), for example you want to calculate the average bandwidth in 400 seconds then use the following command :
+``` 
+nload -a 400
+```
+
+3. You can specify the network card that you need to monitor with the following command.
+```
+nload devices device_name
+```
+![](src/nload_device.png)
 
