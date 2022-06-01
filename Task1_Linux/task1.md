@@ -11,8 +11,8 @@
 1. <a href='#8'> Editor 
 1. <a href='#9'> Mount/Unmount
 2. <a href='#10'> Symbolic Links / Hard Links
-3. <a href='#11'> 
-4. <a href='#12'> Process Monitor
+3. <a href='#11'> Compress and Decompress
+4. <a href='#12'> Bandwidth Monitoring 
 5. <a href='#13'> List Files and Directories
 6. <a href='#14'> Actions with Files/Directories(move/copy,....)        
 7. <a href='#15'> Basic and advanced decentralization.
@@ -794,3 +794,57 @@ gunzip -r directory_name/
 ```
 tar -cvf file_name dir_name
 ```
+With:
+- c – Create a new .tar file
+- v – Display the compression process on the screen
+- f – Filename
+#### untar Archive file 
+
+**Syntax**
+```
+tar -xvf file_name.tar
+```
+
+ 
+If you want to untar in a different directory then use option as -C (specified directory).
+```
+tar -xvf file_name.tar -C path_to_directory
+```
+
+<div id='11'></div>
+
+### 12. Bandwidth monitoring
+
+#### `vnstat` command
+- `vnstat` is a command-line tool in Linux that is generally used by system administrators in order to monitor network parameters such as bandwidth consumption or maybe some traffic flowing in or out. It monitors the traffic on the network interfaces of the system. 
+
+**Install vnstat in Ubuntu or Debian Linux**
+```
+sudo apt-get install vnstat
+```
+
+**Examples:**
+1. To get basic stats of all network interfaces 
+```
+vnstat
+```
+
+![](src/vnstat.png)
+
+This command will print all the basic stats of the network interfaces connected to the system. 
+
+2. To monitor a specific interface 
+``` 
+vnstat -i wlp0s20f3 
+```
+![](src/vnstat_i.png)
+
+This will monitor and display the stats of the specified interface that is wlp0s20f3 
+
+3. To get the daily stats of an interface 
+```
+vnstat -d -i wlp0s20f3
+```
+![](src/vnstat_d.png)
+
+
