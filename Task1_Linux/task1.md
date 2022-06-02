@@ -1191,6 +1191,7 @@ command 2> error.txt 1> output.txt
 
 #### Redirecting output to /dev/null
 1. In the following command, you are looking for a string in “/sys” to find files related to power settings.
+  
 ![](src/dev_2.png)
 
 There will be a lot of files that non-root users cannot read. This leads to many “Permission denied” errors.
@@ -1199,8 +1200,9 @@ These things clutter the output and make it hard to spot the results you're look
 
 ![](src/dev_3.png)
 
-2. Redirect all output to /dev/null
+1. Redirect all output to /dev/null
 In certain situations, the output may not be useful at all. Using redirection, we can dump all the output into the void.
+
 ![](src/dev_5.png)
 
 The string >/dev/null means sending stdout to /dev/null, and the second part, 2>&1, means sending stderr to stdout. In this case, you must treat stdout as &1, rather than simply 1. Writing 2>1 will just redirect stdout to a file named 1.
