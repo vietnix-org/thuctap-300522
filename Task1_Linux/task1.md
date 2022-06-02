@@ -1182,3 +1182,42 @@ command 2> file
 command 2> error.txt 1> output.txt
 ```
 ![](src/redir_1_2.png)
+
+<div id='20'></div>
+
+### 20. /dev/null
+
+#### Redirecting output to /dev/null
+1. In the following command, you are looking for a string in “/sys” to find files related to power settings.
+![](src/dev_2.png)
+
+There will be a lot of files that non-root users cannot read. This leads to many “Permission denied” errors.
+
+These things clutter the output and make it hard to spot the results you're looking for. Since “Permission denied” errors are part of stderr, you can redirect them to “/dev/null”.
+
+![](src/dev_3.png)
+
+2. Redirect all output to /dev/null
+In certain situations, the output may not be useful at all. Using redirection, we can dump all the output into the void.
+![](src/dev_5.png)
+
+The string >/dev/null means sending stdout to /dev/null, and the second part, 2>&1, means sending stderr to stdout. In this case, you must treat stdout as &1, rather than simply 1. Writing 2>1 will just redirect stdout to a file named 1.
+
+<div id='21'></div>
+
+### 21. Redirecting Standard Input
+The `<` symbol is used for input(STDIN) redirection
+
+**Examples:**
+1. Use standard input redirection to send the contents of the file /etc/passwd to the more command:
+```
+more < /etc/passwd 
+```
+![](src/redir_input.png)
+
+2. Redirect input to file
+![](src/re_input_1.png)
+
+Using the `<` symbol, we redirect the standard input to file.txt.
+
+We get `1` as our output. However, the name of the file is not printed in this case. This happens because the command assumes that it is taking its input from stdin rather than a file. Hence, the name of the file is not printed.
