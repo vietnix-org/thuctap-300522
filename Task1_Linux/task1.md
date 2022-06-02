@@ -14,10 +14,11 @@
 1. <a href='#11'> Compress and Decompress
 1. <a href='#12'> Bandwidth Monitoring 
 1. <a href='#13'> nmap, telnet, ping, ssh, copy file/directory from local to public host
-1. <a href='#14'> gen ssh-key        
+1. <a href='#14'> ssh-keygen       
 1. <a href='#15'> Basic and advanced decentralization.
 1. <a href='#16'> Input string to last of a file
 1. <a href='#17'> grep, awk, sed, tr, less, more, sort, uniq, cut, join, diff, xargs, traceroute, pkill, wc, wget, git, rsyn, ping, tee, ln, mkdir
+1. <a href='#18'> Redirecting Standard Input
 ***
 
 <div id='1'></div>
@@ -933,13 +934,20 @@ sudo nmap -sL ip_address
 ![](src/open23.png)
 
 
-
 <dev id='14'></dev>
 
-### 14. gen ssh-key
-
-
-
+### 14. ssh-keygen
+1. First you need to download and start ssh on your computer
+2. After that, create a ssh-keygen
+![](src/ssh_1.png)   
+3. Copy file content public key to remote server
+![](src/ssh_2.png)
+4. Final, ssh with command
+```
+ssh name_remote_server@ip_remote_server
+```
+![](src/ssh_3.png)
+  
 <dev id='15'></dev>
 
 ### 15. View the content of file with out editor 
@@ -1137,3 +1145,39 @@ ls -l
 3. stderr
 ![](src/stderr.png)
 Here, there’s no file named anything. That’s why the message ls returns is sent to stderr.
+
+
+<div id='19'></div>
+
+### 19. Redirecting Standard Input
+
+In Bash and other Linux shells, when a program is executed, it uses three standard I/O streams. Each stream is represented by a numeric file descriptor:
+
+- 0 - stdin, the standard input stream.
+- 1 - stdout, the standard output stream.
+- 2 - stderr, the standard error stream.
+
+A file descriptor is just a number representing an open file.
+
+Streams can be redirected using the n> operator, where n is the file descriptor number.
+
+When n is omitted, it defaults to 1, the standard output stream. 
+
+1. For example, the following two commands are the same; both will redirect the command output (stdout) to the file.
+```
+command > file
+command 1> file
+```
+![](src/redir_1.png)
+
+2. To redirect the standard error (stderr) use the 2> operator:
+```
+command 2> file
+```
+![](src/redir_2.png)
+
+3. You can write both `stderr` and `stdout` to two separate files:
+```
+command 2> error.txt 1> output.txt
+```
+![](src/redir_1_2.png)
