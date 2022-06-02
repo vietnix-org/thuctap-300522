@@ -13,7 +13,7 @@
 2. <a href='#10'> Symbolic Links / Hard Links
 3. <a href='#11'> Compress and Decompress
 4. <a href='#12'> Bandwidth Monitoring 
-5. <a href='#13'> List Files and Directories
+5. <a href='#13'> nmap, telnet, ping, ssh, copy file/directory from local to public host
 6. <a href='#14'> Actions with Files/Directories(move/copy,....)        
 7. <a href='#15'> Basic and advanced decentralization.
 8. <a href='#16'> Editor 
@@ -870,4 +870,59 @@ nload -a 400
 nload devices device_name
 ```
 ![](src/nload_device.png)
+
+
+<dev id='13'></dev>
+
+### 13. nmap, telnet, ping, ssh, copy file/directory from local to public host
+
+#### `nmap` command 
+Nmap is Linux command-line tool for network exploration and security auditing. This tool is generally used by hackers and cybersecurity enthusiasts and even by network and system administrators. It is used for the following purposes: 
+
+- Real time information of a network
+- Detailed information of all the IPs activated on your network
+- Number of ports open in a network
+- Provide the list of live hosts
+- Port, OS and Host scanning
+  
+**Install nmap**
+![](src/nmap_install.png)
+
+**Examples**
+1. Scan with host name:
+```
+nmap host_name
+```
+![](src/nmap_host.png)
+
+2. Scan with ip:
+``` 
+nmap ip_address
+```
+![](src/nmap_ip.png)
+
+The nmap command allows scanning a system in various ways. In this we are performing a scan using the hostname as “fap.fpt.edu.vn” and IP address “103.160.76.80”, to find all open ports, services, and MAC addresses on the system.
+
+3. Scan to detect firewall settings:
+```
+nmap -sA ip_address
+```
+![](src/nmap_sA.png)
+
+Detecting firewall settings can be useful during penetration testing and vulnerability scans. To detect it we use “-sA” option. This will provide you with information about firewall being active on the host. It uses an ACK scan to receive the information.
+
+4. To identify Hostnames  
+``` 
+sudo nmap -sL ip_address
+```
+![](src/nmap_sL.png)
+
+5. Here It Will Display The Operating System Where The Domain or Ip Address is Running But Will Not Display Exact Operating System Available On Computer. It Will Only Display The Chance of Operating System Available in The Computer. This Will Just Guess the Running Operating System (OS) in the Host.
+
+![](src/nmap_o.png)
+
+
+
+#### `telnet` command
+
 
