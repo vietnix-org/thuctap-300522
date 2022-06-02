@@ -1109,4 +1109,31 @@ While viewing the text file use these controls:
 
 ### 18. Standart Input, Output, Error
 
+Let’s have a quick breakdown of the special streams.
+- stdin: Stands for standard input. It takes text as input.
+- stdout: Stands for standard output. The text output of a command is stored in the stdout stream.
+- stderr: Stands for standard error. Whenever a command faces an error, the error message is stored in this stream.
 
+In Linux, almost all the streams are treated as if they were files. Just like you can read/write a file, you can read/write data from these streams.
+
+An easy way to access any file is by using the unique file descriptor number associated with it. In the case of these streams, there are unique values assigned to each one of them.
+
+- 0: stdin
+- 1: stdout
+- 2: stderr
+
+**Examples**
+1. stdin
+![](src/stdin.png)
+The command will require input from the keyboard. Here, the read tool is getting the input from stdin.  Now let’s look at stdout.
+
+2. stdout
+Here, the ls command lists the file(s) in the current directory. The list is sent to stdout and the terminal prints it out.  Let’s check stderr now.
+```
+ls -l
+```
+![](src/ln_s.png)
+
+3. stderr
+![](src/stderr.png)
+Here, there’s no file named anything. That’s why the message ls returns is sent to stderr.
