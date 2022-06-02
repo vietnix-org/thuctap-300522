@@ -10,13 +10,14 @@
 1. <a href='#7'> Basic and advanced decentralization.
 1. <a href='#8'> Editor 
 1. <a href='#9'> Mount/Unmount
-2. <a href='#10'> Symbolic Links / Hard Links
-3. <a href='#11'> Compress and Decompress
-4. <a href='#12'> Bandwidth Monitoring 
-5. <a href='#13'> nmap, telnet, ping, ssh, copy file/directory from local to public host
-6. <a href='#14'> Actions with Files/Directories(move/copy,....)        
-7. <a href='#15'> Basic and advanced decentralization.
-8. <a href='#16'> Editor 
+1. <a href='#10'> Symbolic Links / Hard Links
+1. <a href='#11'> Compress and Decompress
+1. <a href='#12'> Bandwidth Monitoring 
+1. <a href='#13'> nmap, telnet, ping, ssh, copy file/directory from local to public host
+1. <a href='#14'> gen ssh-key        
+1. <a href='#15'> Basic and advanced decentralization.
+1. <a href='#16'> Input string to last of a file
+1. <a href='#17'> grep, awk, sed, tr, less, more, sort, uniq, cut, join, diff, xargs, traceroute, pkill, wc, wget, git, rsyn, ping, tee, ln, mkdir
 ***
 
 <div id='1'></div>
@@ -985,3 +986,64 @@ grep <pattern> <file_name>
 ![](src/grep.png)
 
 
+<div id='16'></div>
+
+### 16. Input string into last file
+
+#### `echo` command
+**Syntax**
+```
+echo "string" >> file_name
+```
+![](src/echo.png)
+
+#### `tee` command
+
+**Syntax:**
+```
+cat srcFile.txt | tee -a desFile.txt
+```
+
+This command will input all content of srcFile.txt into last of desFile.txt
+
+
+### 17. grep, awk, sed, tr, less, more, sort, uniq, cut, join, diff, xargs, traceroute, pkill, wc, wget, git, rsyn, ping, tee, ln, mkdir
+
+#### `grep` command
+- `grep` is an essential Linux and Unix command. It is used to search text and strings in a given file. In other words, `grep` command searches the given file for lines containing a match to the given strings or words.
+
+**Examples:**
+1. Search any line that contains the **word** in filename on Linux:
+```
+grep 'word' filename
+```
+
+2. Look for all files in the current directory and in all of its subdirectories in Linux for the word ‘httpd’:
+```
+grep -R 'love' 
+```
+![](src/grep_R.png)
+
+3. Search and display the total number of times that the string ‘love’ appears in a current folder
+```
+grep -R -c 'love' 
+```
+![](src/grep_c.png)
+
+****
+
+#### `awk` command
+- `awk` is a scripting language used for manipulating data and generating reports. The awk command programming language requires no compiling and allows the user to use variables, numeric functions, string functions, and logical operators. 
+
+**Syntax**
+```
+awk options 'selection _criteria {action }' input-file > output-file
+```
+
+**Examples:**
+
+1. This `awk` command with **print** options to print every line of data from awktest.txt file
+![](src/awk_print.png)
+
+2. Print the lines which match the given pattern. 
+![](src/awk_pattern.png)
