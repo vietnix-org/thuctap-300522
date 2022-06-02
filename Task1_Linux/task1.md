@@ -924,5 +924,64 @@ sudo nmap -sL ip_address
 
 
 #### `telnet` command
+- In Linux, the telnet command is used to establish the connections between different machines.This command allows us to manage the remote devices using the CLI (command-line interface).  It uses TCP port 23 which is assigned to the telnet protocol.
+
+![](src/telnet_status.png)
+
+- The telnet protocol is installed and is in running status. We know that it uses port 23, so we will enable port 23 using the ufw command:
+![](src/open23.png)
+
+
+
+<dev id='14'></dev>
+
+### 14. gen ssh-key
+
+
+
+<dev id='15'></dev>
+
+### 15. View the content of file with out editor 
+
+#### `cat` command 
+- The cat command (short for concatenate) is one of the common commands used to view file content in Linux. Unlike head or tail, the cat command will display to the command line window the entire contents of the file. Commands:
+```
+cat file_name
+```
+![](src/cat.png)
+
+- A common use of the `cat` command is to join (merge) the contents of multiple files together into a single file. This is done through the use of the forward operator > in Linux. Examples are as follows:
+
+```
+cat file_name1 file_name2 > file_name3
+```
+
+![](src/cat_n.png)
+
+#### `head` command
+- The head command in Linux allows us to see the beginning of the content of the file, the head statement has the following syntax:
+``` 
+head file_name
+```
+
+- By default the head statement will display the first 10 lines in the file with the given name. If you want to customize the number of lines to be displayed, you can use the -n option in the command as follows:
+```
+head -n file_name
+```
+![](src/head_n.png)
+
+#### `tail` command
+- In contrast to the `head` command, the `tail` command in Linux allows us to see the end of the file's content, the `tail` command has the following syntax:
+```
+tail file_name
+```
+![](src/tail_n.png)
+
+#### `grep` command
+- The `grep` command is also used quite commonly for the purpose of comparing textual content in a file with a given pattern. The syntax of the grep command is as follows:
+```
+grep <pattern> <file_name>
+```
+![](src/grep.png)
 
 
