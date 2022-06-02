@@ -309,9 +309,11 @@ ifconfig eth0 up
   
 #### `ps` command 
 * The `ps` command is a traditional Linux command to lists running processes. The following command shows all processes running on your Linux based server or system:
+  
 ```
   ps -aux
 ```
+
 ![image](src/ps_aux.png)
  
 The process ID (PID) is essential to kill or control process on Linux. 
@@ -329,12 +331,14 @@ pgrep [OPTIONS] <PATTERN>
 
 ![](src/pgrep.png)
 
+
 * The `-l` option tells `pgrep` to show the process name along with its ID:
   
 ![](src/pgrep_l.png)
 
 *  Another command to list process with an easy way for us to follow is`pstree` 
 To list process with PIDs you use
+
 ``` 
 pstree -p
 ```
@@ -356,6 +360,7 @@ kill [OPTIONS] [PID]...
 ```
 kill -l
 ```
+
 ![](src/kill_signal.png)
   
 
@@ -406,6 +411,7 @@ It normally lists the files and directories in ascending alphabetical order.
 ```
 ls
 ```
+
 ![](src/ls.png)
 
 2. To show the files and directory inside a specific Directory:
@@ -413,6 +419,7 @@ ls
 ```
 ls {Directory_Path}
 ```
+
 ![image](src/ls_path.png)
  
    
@@ -439,13 +446,16 @@ The `find` command lets you **search for files in a directory hierarchy**
 ```
 find ./directory -name name_of_files
 ``` 
+
 ![](src/find_name.png)
+
 
 1. To find all directories whose name is test in / directory.
 
 ```
 find / -type d -name test
 ```
+
 ![](src/find_dir.png)
 
 ****
@@ -469,7 +479,6 @@ cp sourceFile destFile
 ```
 cp sourceFile /folderName/destFile
 ```
-
 
 3. To copy a directory, including all its files and subdirectories
 
@@ -614,6 +623,7 @@ chgrp [OPTION]... GROUP FILE...
 
 ### 8. Editor
 #### `vim` command
+
 - The `vim` is a text editor for Unix that comes with Linux, BSD, and macOS. It is known to be fast and powerful, partly because it is a small program that can run in a terminal (although it has a graphical interface). 
 - `vim` stands for "Vi Improved", and is an improved clone of the `vi` editor.
 
@@ -630,6 +640,7 @@ vim [FILE_PATH/FILE_NAME]
 ```
 vim test1.txt
 ```
+
 ![](src/vim_1.png)
 
 ![](src/vim_2.png)
@@ -639,7 +650,9 @@ vim test1.txt
 ```
 vim {File_Path/filename}
 ```
+
 ![](src/vim_3.png)
+
 
 The command to save the file and exit vim editor: ```:wq```
 
@@ -657,20 +670,22 @@ The command to exit vim editor without saving the file: ```:q!```
 ```
 nano /path/to/filename
 ```
+
 ![](src/nano.png)
+
 
 2. Create a new file, type `nano` followed by the filename:
 
 ```
 nano filename
 ```
+
 ![](src/nano_1.png)
 
 
 <div id='9'></div>
 
 ### 9. Mount/Unmount
-
 
 - The `umount` command **unmounts** a mounted filesystem, informing the system to complete any pending read or write operations, and safely detaching it.
 
@@ -679,6 +694,7 @@ nano filename
 - The `mount` command mounts a storage device or `filesystem`, making it accessible and attaching it to an existing directory structure.
 
 **Examples:**
+
 
 
 <div id='10'></div>
@@ -726,28 +742,31 @@ ln [srcFile] [desFile]
 
 **Compress a file**
 - Reduce the size of the file by applying compression
+  
 ```
 gzip file_name
 ```
+
 ![](src/gzip.png)
 
 
-  
 **Command:**
 - Compress multiple files into multiple archives
+  
 ```
 gzip file_name_01 file_name_02 file_name_03
 ```
+
 ![](src/gzip_1.png)
-
-
 
 
 **Command:**
 - Output more information about the action of the command
+  
 ```
 gzip -v file_name
 ```
+
 ![](src/gzip_2.png)
 
 
@@ -839,6 +858,7 @@ This command will print all the basic stats of the network interfaces connected 
 ``` 
 vnstat -i wlp0s20f3 
 ```
+
 ![](src/vnstat_i.png)
 
 This will monitor and display the stats of the specified interface that is wlp0s20f3 
@@ -847,6 +867,7 @@ This will monitor and display the stats of the specified interface that is wlp0s
 ```
 vnstat -d -i wlp0s20f3
 ```
+
 ![](src/vnstat_d.png)
 
 ****
@@ -888,6 +909,7 @@ Nmap is Linux command-line tool for network exploration and security auditing. T
 - Port, OS and Host scanning
   
 **Install nmap**
+
 ![](src/nmap_install.png)
 
 **Examples**
@@ -895,12 +917,14 @@ Nmap is Linux command-line tool for network exploration and security auditing. T
 ```
 nmap host_name
 ```
+
 ![](src/nmap_host.png)
 
 2. Scan with ip:
 ``` 
 nmap ip_address
 ```
+
 ![](src/nmap_ip.png)
 
 The nmap command allows scanning a system in various ways. In this we are performing a scan using the hostname as “fap.fpt.edu.vn” and IP address “103.160.76.80”, to find all open ports, services, and MAC addresses on the system.
@@ -909,6 +933,7 @@ The nmap command allows scanning a system in various ways. In this we are perfor
 ```
 nmap -sA ip_address
 ```
+
 ![](src/nmap_sA.png)
 
 Detecting firewall settings can be useful during penetration testing and vulnerability scans. To detect it we use “-sA” option. This will provide you with information about firewall being active on the host. It uses an ACK scan to receive the information.
@@ -939,15 +964,21 @@ sudo nmap -sL ip_address
 ### 14. ssh-keygen
 1. First you need to download and start ssh on your computer
 2. After that, create a ssh-keygen
+   
 ![](src/ssh_1.png)   
+
 3. Copy file content public key to remote server
+   
 ![](src/ssh_2.png)
+
 4. Final, ssh with command
 ```
 ssh name_remote_server@ip_remote_server
 ```
+
 ![](src/ssh_3.png)
   
+
 <div id='15'></div>
 
 ### 15. View the content of file with out editor 
@@ -957,6 +988,7 @@ ssh name_remote_server@ip_remote_server
 ```
 cat file_name
 ```
+
 ![](src/cat.png)
 
 - A common use of the `cat` command is to join (merge) the contents of multiple files together into a single file. This is done through the use of the forward operator > in Linux. Examples are as follows:
@@ -966,6 +998,7 @@ cat file_name1 file_name2 > file_name3
 ```
 
 ![](src/cat_n.png)
+
 
 #### `head` command
 - The head command in Linux allows us to see the beginning of the content of the file, the head statement has the following syntax:
@@ -977,14 +1010,18 @@ head file_name
 ```
 head -n file_name
 ```
+
 ![](src/head_n.png)
+
 
 #### `tail` command
 - In contrast to the `head` command, the `tail` command in Linux allows us to see the end of the file's content, the `tail` command has the following syntax:
 ```
 tail file_name
 ```
+
 ![](src/tail_n.png)
+
 
 #### `grep` command
 - The `grep` command is also used quite commonly for the purpose of comparing textual content in a file with a given pattern. The syntax of the grep command is as follows:
@@ -1003,6 +1040,7 @@ grep <pattern> <file_name>
 ```
 echo "string" >> file_name
 ```
+
 ![](src/echo.png)
 
 #### `tee` command
@@ -1037,6 +1075,7 @@ grep -R 'love'
 ```
 grep -R -c 'love' 
 ```
+
 ![](src/grep_c.png)
 
 ****
@@ -1052,9 +1091,11 @@ awk options 'selection _criteria {action }' input-file > output-file
 **Examples:**
 
 1. This `awk` command with **print** options to print every line of data from awktest.txt file
+   
 ![](src/awk_print.png)
 
-2. Print the lines which match the given pattern. 
+1. Print the lines which match the given pattern. 
+   
 ![](src/awk_pattern.png)
 
 #### `sed` command
@@ -1066,9 +1107,11 @@ awk options 'selection _criteria {action }' input-file > output-file
 1. To execute the delete command – delete command, use option d with the file in parentheses. The command will delete the first line of the file **test.txt**
 
 ![](src/sed_1.png)
+
 ![](src/sed_d.png)
 
 2. To execute the write command, add the w option, line number, and file name in parentheses. The following command will read the second line and write it into the test5.txt file.
+   
 ![](src/sed_w.png)
 
 3. To Find and Replace String with `sed`
@@ -1085,9 +1128,11 @@ sed -i 's/{search_regex}/{replace_value}/g' input-file
 
 **Example:**
 1. Convert all lowercase letters in file1 to uppercase.
+   
 ![](src/tr_1.png)
 
 2. Make consecutive space into one.
+   
 ![](src/tr_2.png)
 
 
@@ -1098,7 +1143,9 @@ sed -i 's/{search_regex}/{replace_value}/g' input-file
 ``` 
 less filename
 ```
+
 ![](src/less.png)
+
 
 - `more` command is used to view the text files in the command prompt, displaying one screen at a time in case the file is large (For example log files). The more command also allows the user do scroll up and down through the page. The syntax along with options and command is as follows. Another application of more is to use it with some other command after a pipe. When the output is large, we can use more command to see output one by one.
   
@@ -1109,8 +1156,6 @@ While viewing the text file use these controls:
 
 **Examples:**
 ![](src/more.png)
-
-
 
 
 
@@ -1135,6 +1180,7 @@ An easy way to access any file is by using the unique file descriptor number ass
 1. stdin
    
 ![](src/stdin.png)
+
 The command will require input from the keyboard. Here, the read tool is getting the input from stdin.  Now let’s look at stdout.
 
 1. stdout
@@ -1142,11 +1188,13 @@ Here, the ls command lists the file(s) in the current directory. The list is sen
 ```
 ls -l
 ```
+
 ![](src/ln_s.png)
 
 3. stderr
-  
+
 ![](src/stderr.png)
+
 Here, there’s no file named anything. That’s why the message ls returns is sent to stderr.
 
 
