@@ -874,7 +874,7 @@ nload devices device_name
 ![](src/nload_device.png)
 
 
-<dev id='13'></dev>
+<div id='13'></div>
 
 ### 13. nmap, telnet, ping, ssh, copy file/directory from local to public host
 
@@ -934,7 +934,7 @@ sudo nmap -sL ip_address
 ![](src/open23.png)
 
 
-<dev id='14'></dev>
+<div id='14'></div>
 
 ### 14. ssh-keygen
 1. First you need to download and start ssh on your computer
@@ -948,7 +948,7 @@ ssh name_remote_server@ip_remote_server
 ```
 ![](src/ssh_3.png)
   
-<dev id='15'></dev>
+<div id='15'></div>
 
 ### 15. View the content of file with out editor 
 
@@ -1014,6 +1014,7 @@ cat srcFile.txt | tee -a desFile.txt
 
 This command will input all content of srcFile.txt into last of desFile.txt
 
+<div id='17'></div>
 
 ### 17. grep, awk, sed, tr, less, more, sort, uniq, cut, join, diff, xargs, traceroute, pkill, wc, wget, git, rsyn, ping, tee, ln, mkdir
 
