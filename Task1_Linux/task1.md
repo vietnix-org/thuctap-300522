@@ -1133,10 +1133,11 @@ An easy way to access any file is by using the unique file descriptor number ass
 
 **Examples**
 1. stdin
+   
 ![](src/stdin.png)
 The command will require input from the keyboard. Here, the read tool is getting the input from stdin.  Now let’s look at stdout.
 
-2. stdout
+1. stdout
 Here, the ls command lists the file(s) in the current directory. The list is sent to stdout and the terminal prints it out.  Let’s check stderr now.
 ```
 ls -l
@@ -1144,6 +1145,7 @@ ls -l
 ![](src/ln_s.png)
 
 3. stderr
+  
 ![](src/stderr.png)
 Here, there’s no file named anything. That’s why the message ls returns is sent to stderr.
 
@@ -1216,6 +1218,7 @@ more < /etc/passwd
 ![](src/redir_input.png)
 
 2. Redirect input to file
+  
 ![](src/re_input_1.png)
 
 Using the `<` symbol, we redirect the standard input to file.txt.
