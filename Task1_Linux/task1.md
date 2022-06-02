@@ -1047,3 +1047,66 @@ awk options 'selection _criteria {action }' input-file > output-file
 
 2. Print the lines which match the given pattern. 
 ![](src/awk_pattern.png)
+
+#### `sed` command
+
+- The most common use of `sed` command is for a substitution or for find and replace. By using sed you can edit files even without opening it, which is a much quicker way to find and replace something in the file. It supports basic and extended regular expressions that allow you to match complex patterns. Most Linux distributions come with GNU and sed is pre-installed by default.
+- The basic SED workflows are, Read, Execute and Display.
+
+**Examples**
+1. To execute the delete command – delete command, use option d with the file in parentheses. The command will delete the first line of the file **test.txt**
+
+![](src/sed_1.png)
+![](src/sed_d.png)
+
+2. To execute the write command, add the w option, line number, and file name in parentheses. The following command will read the second line and write it into the test5.txt file.
+![](src/sed_w.png)
+
+3. To Find and Replace String with `sed`
+```
+sed -i 's/{search_regex}/{replace_value}/g' input-file
+```
+![](src/sed_re.png)
+*****
+
+#### `tr` command
+- The tr command in UNIX is a command line utility for translating or deleting characters.
+- It supports a range of transformations including uppercase to lowercase, squeezing repeating characters, deleting specific characters and basic find and replace.
+- It can be used with UNIX pipes to support more complex translation. tr stands for translate.
+
+**Example:**
+1. Convert all lowercase letters in file1 to uppercase.
+![](src/tr_1.png)
+
+2. Make consecutive space into one.
+![](src/tr_2.png)
+
+
+#### `less/more` command
+- `less` command is a Linux utility that can be used to read the contents of a text file one page(one screen) at a time. It has faster access because if file is large it doesn’t access the complete file, but accesses it page by page. 
+
+**Syntax** 
+``` 
+less filename
+```
+![](src/less.png)
+
+- `more` command is used to view the text files in the command prompt, displaying one screen at a time in case the file is large (For example log files). The more command also allows the user do scroll up and down through the page. The syntax along with options and command is as follows. Another application of more is to use it with some other command after a pipe. When the output is large, we can use more command to see output one by one.
+  
+While viewing the text file use these controls:
+- Enter key: to scroll down line by line.
+- Space bar: To go to the next page.
+- b key: To go to back one page.
+
+**Examples:**
+![](src/more.png)
+
+
+
+
+
+<div id='18'></div>
+
+### 18. Standart Input, Output, Error
+
+
