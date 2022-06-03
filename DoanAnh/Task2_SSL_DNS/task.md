@@ -108,6 +108,7 @@ But for Google UK’s domain name, ‘google.co.uk’:
 - The **A** stands for "address" and this is the most fundamental type of DNS record: it indicates the IP address of a given domain. For example, if you pull the DNS records of google.com, the A record currently returns an IP address of: 142.250.66.110
 - **A** records only hold IPv4 addresses. If a website has an IPv6 address, it will instead use an **AAAA** record.
 - Here is an example of an A record
+  
 ![](src/A_ex.png)
 
 The **@** symbol in this example indicates that this is a record for the root domain, and the **14400** value is the TTL (time to live), listed in seconds. The default TTL for A records is 14,400 seconds. This means that if an A record gets updated, it takes 240 minutes (14,400 seconds) to take effect.
@@ -116,4 +117,29 @@ The **@** symbol in this example indicates that this is a record for the root do
 - DNS **AAAA** records match a domain name to an IPv6 address. DNS **AAAA** records are exactly like DNS A records, except that they store a domain's IPv6 address instead of its IPv4 address.
 
 **Examples**
+
 ![](src/AAAA.png)
+
+#### CNAME record
+- The **‘canonical name’ (CNAME)** record is used in lieu of an **A** record, when a domain or subdomain is an alias of another domain. All **CNAME** records must point to a domain, never to an IP address. Imagine a scavenger hunt where each clue points to another clue, and the final clue points to the treasure. A domain with a **CNAME** record is like a clue that can point you to another clue (another domain with a CNAME record) or to the treasure (a domain with an A record).
+
+- For example, suppose blog.example.com has a CNAME record with a value of ‘example.com’ (without the ‘blog’). This means when a DNS server hits the DNS records for blog.example.com, it actually triggers another DNS lookup to example.com, returning example.com’s IP address via its A record. In this case we would say that example.com is the canonical name (or true name) of blog.example.com.
+
+- Oftentimes, when sites have subdomains such as blog.example.com or shop.example.com, those subdomains will have CNAME records that point to a root domain (example.com). This way if the IP address of the host changes, only the DNS A record for the root domain needs to be updated and all the CNAME records will follow along with whatever changes are made to the root.
+
+
+#### MX record: 
+- A DNS **mail exchange (MX)** record directs email to a mail server. The **MX** record indicates how email messages should be routed in accordance with the **Simple Mail Transfer Protocol (SMTP, the standard protocol for all email)**. Like CNAME records, an MX record must always point to another **domain**.
+
+![](src/MX.png)
+
+- The **priority** numbers before the domains for these MX records indicate preference; the lower **priority** value is preferred. The server will always try mailhost1 first because 10 is lower than 20. In the result of a message send failure, the server will default to mailhost2.
+
+- The email service could also configure this MX record so that both servers have equal priority and receive an equal amount of mail. 
+
+#### TXT record:
+- The **DNS ‘text’ (TXT)** record lets a domain administrator enter text into the Domain Name System (DNS). The TXT record was originally intended as a place for human-readable notes. However, now it is also possible to put some machine-readable data into TXT records. One domain can have many TXT records.
+
+![](src/TXT.png)
+
+- Today, two of the most important uses for DNS TXT records are email spam prevention and domain ownership verification, although TXT records were not designed for these uses originally.
