@@ -143,3 +143,82 @@ The **@** symbol in this example indicates that this is a record for the root do
 ![](src/TXT.png)
 
 - Today, two of the most important uses for DNS TXT records are email spam prevention and domain ownership verification, although TXT records were not designed for these uses originally.
+
+#### NS record:
+- NS stands for ‘nameserver,’ and the nameserver record indicates which DNS server is authoritative for that domain (i.e. which server contains the actual DNS records). Basically, NS records tell the Internet where to go to find out a domain's IP address. A domain often has multiple NS records which can indicate primary and secondary nameservers for that domain. Without properly configured NS records, users will be unable to load a website or application.
+
+- A **nameserver** is a type of DNS server. It is the server that stores all DNS records for a domain, including **A records, MX records, or CNAME records**.
+
+![](src/ns.png)
+
+- Note that NS records can never point to a **canonical name (CNAME)** record.
+
+#### SOA record:
+- The DNS ‘start of authority’ (SOA) record stores important information about a domain or zone such as the email address of the administrator, when the domain was last updated, and how long the server should wait between refreshes.
+
+- All DNS zones need an SOA record in order to conform to IETF standards. SOA records are also important for zone transfers.
+
+**Example**
+
+![](src/soa.png)
+
+
+<div id='4'></div>
+
+## 4. Hosting, VPS, Sever?
+
+### Hosting
+
+#### Define
+- Web hosting is an online service that makes your website’s content accessible on the internet. When you purchase a hosting plan, you are renting space on a physical server to store all the website’s files and data.
+- Web hosts provide the technology and resources required for the effective and secure operation of your website. They are responsible for keeping the server up and running, implementing security measures, and ensuring that data such as texts, photos, and other files are transferred successfully to the visitors’ browsers.'
+  
+
+#### How does web hosting work
+- The server that hosts your website is a physical computer that runs continuously to make the site available for visitors all the time. Buying servers for web hosting will alow you to store all the data of your website in the those servers of your provider.
+
+- Once a user enters your domain name into their browser’s address bar, the web host’s server will transfer all the files necessary to load your website.
+
+#### Types of Web hosting Services
+
+![](src/VPS_1.png)
+
+##### Share hosting 
+
+![](src/share.png)
+
+- With shared hosting, multiple users share the same server resources, including memory, processing power, and storage space.
+
+- Because of its simplicity and affordability, shared web hosting is an excellent solution for small businesses and personal websites that do not require advanced configuration or higher bandwidth. Hence, shared hosting is an excellent choice for beginners that need affordable hosting to start.
+
+
+##### Virtual Private Server (VPS) Hosting
+
+![](src/VPS.png)
+
+- With this web hosting type, your website also shares a physical server with other users, but the web host creates a virtual partition for each user. Thus, a site hosted on a virtual private server get an allocated amount of resources.
+- VPS web hosting is a great option for medium-sized sites, eCommerce shops, and large blogs with a rapidly growing number of visitors.
+
+
+##### Cloud Hosting
+
+![](src/cloud.png)
+
+- This web hosting solution uses several virtual servers to host sites. Thus, if one server experiences high traffic or a problem, the remaining ones will take over and maintain the website operating.
+
+- Since cloud hosting relies on a cluster of web servers to function, businesses with multiple websites and large-scale sites like eCommerce shops can benefit the most from it, as it provides little to no downtime.
+
+
+##### WordPress Hosting
+- This type of CMS web hosting service provides a WordPress-optimized server environment to help your site load faster and minimize potential issues. However, other types of web hosting still work for websites based on this popular content management system (CMS).
+
+![](src/wordpress.png)
+
+- Typically, the best WordPress hosting plans come with features such as pre-installed themes, plugins for core functions like caching and security, and other tools.
+
+
+##### Dedicated Hosting 
+- Dedicated hosting designates a physical server for each website. By going with dedicated hosting, you can configure the server, choose your desired operating system and software, and customize the entire hosting environment to your specifications.
+![](src/dedicatedserver-1200x385.webp)
+
+Renting a dedicated server is just as powerful as having your own on-site server, but with the added benefit of getting professional support from your web host. Thus, dedicated hosting is ideal for large online businesses that deal with heavy traffic.
