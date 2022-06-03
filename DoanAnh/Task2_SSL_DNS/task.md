@@ -257,3 +257,57 @@ The **@** symbol in this example indicates that this is a record for the root do
 <div id='5'></div>
 
 ## 5. Reverse proxy and operating principle.
+- A reverse proxy is a server that sits in front of web servers and forwards client (e.g. web browser) requests to those web servers. Reverse proxies are typically implemented to help increase security, performance, and reliability. In order to better understand how a reverse proxy works and the benefits it can provide, let’s first define what a proxy server is. 
+- With a reverse proxy, when clients send requests to the origin server of a website, those requests are intercepted at the network edge by the reverse proxy server. The reverse proxy server will then send requests to and receive responses from the origin server.
+- The difference between a forward and reverse proxy is subtle but important. A simplified way to sum it up would be to say that a forward proxy sits in front of a client and ensures that no origin server ever communicates directly with that specific client. On the other hand, a reverse proxy sits in front of an origin server and ensures that no client ever communicates directly with that origin server.
+
+### Operating principle
+
+![](src/reverse.webp)
+
+Typically all requests from D would go directly to F, and F would send responses directly to D. With a reverse proxy, all requests from D will go directly to E, and E will send its requests to and receive responses from F. E will then pass along the appropriate responses to D.
+
+
+<div id='6'></div>
+
+## 6. Compare Nginx and Apache
+### Apache
+- Apache is "Apache HTTP Server". It is an open-source, high-performance web server software developed and maintained by Apache Software Foundation. Apache is designed to create a secure, robust and efficient commercial-grade web server in line with the current HTTP standards.
+
+- Apache remains the first choice among the server administrators because of its flexibility, architectural simplicity, power compatibility, and multi-platform support. It can run on almost all operating systems such as Windows, UNIX, OSX, NetWare, etc. But it is commonly used in combination with Linux.
+
+- Apache became the backbone of the WWW (World Wide Web), it was really on the top of the game, but when NGINX comes in the business, the server administrator's choice was changed.
+
+
+### Nginx 
+- At first, people mostly used Nginx as an Apache supplement.
+- It was used mostly for serving static files, but today, it has evolved as a complete web server that deals with the full spectrum of server tasks
+- Today, Nginx is often used as a reverse proxy, load balancer, mail proxy and for HTTP caching.
+- Nginx works on Asynchronous and Event Driven architecture. This architecture is that Threads are managed in a process, each process operates on smaller entities - Worker Connections.
+
+### Compare Nginx and Apache
+
+![](src/nginx%26apache.png)
+
+#### Performance
+##### Static Web
+
+Nginx is 2.5x faster than Apache based on a benchmark test running up to 1000 concurrent connections.
+
+![](src/apc_1.jpg)
+
+In another test with 512 concurrent connections, Nginx was about 2 times faster and consumed less memory (4%).
+
+##### Dynamic Web
+
+- If you already have a dynamic website using WordPress, Joomla, Drupal, ... you might consider using NGINX or Apache. Static content is much less in these situations than dynamic content.
+
+![](src/apc_2.jpg)
+
+#### Flexibility
+- A web host should be flexible enough to allow customizations. Apache does that pretty well, through the use of .htaccess tools that Nginx doesn't support. It allows to decentralize admin tasks. Third-party admins and second-level admins may be prevented from accessing the main server. Furthermore, Apache supports more than 60 modules, making it highly extensible. That's why Apache is more popular with shared hosting providers.
+
+### Conclusion
+- Both Nginx web server and Apache web server are good candidates in different fields. Nginx is the clear winner for static content, while dynamic content makes no real difference between web servers.
+
+- Apache excels in terms of flexibility, especially for shared hosting users. Apache .htaccess file and dynamic modules would definitely be more suitable, while Nginx would be better for VPS and dedicated hosting.
