@@ -59,6 +59,8 @@ Ideal product for e-commerce portals. Each e-store is a sub-domain and is shared
 
 - The key set will change each time in the next transaction, another person will not be able to decrypt it even with the data of the above digital certificate server.
 
+***
+
 <div id='2'></div>
 
 ## 2. What is Domain name?
@@ -69,7 +71,7 @@ Ideal product for e-commerce portals. Each e-store is a sub-domain and is shared
 - The actual address of a website is a complex numerical IP address (e.g. 103.21.244.0), but thanks to DNS, users are able to enter human-friendly domain names and be routed to the websites they are looking for. This process is known as a **DNS lookup**.
 
 #### Domain && URL
-- A **uniform resource locator** (URL), sometimes called a web address, contains the domain name of a site as well as other information, including the transfer protocol and the path. For example, in the URL **https://cloudflare.com/learning/’**, `cloudflare.com` is the domain name, while `https` is the protocol and `/learning/` is the path to a specific page on the website.
+- A **uniform resource locator(URL)**, sometimes called a web address, contains the domain name of a site as well as other information, including the transfer protocol and the path. For example, in the URL 'https://cloudflare.com/learning/', 'cloudflare.com' is the domain name, while **https** is the protocol and **/learning/** is the path to a specific page on the website.
 
 ### What are the parts of a Domain name
 - Domain names are typically broken up into two or three parts, each seperated by a dot. When read right-to-left, the indentifiers in domain names go from most general to most specific. The section to the right of the last dot in a domain name is the **top-level domain (TLD)**. These include the `generic` TLDs suc as `.com`, `.net` and `.org`, as well as country-specifics TLSs like `.uk` and `.jp`
