@@ -221,4 +221,39 @@ The **@** symbol in this example indicates that this is a record for the root do
 - Dedicated hosting designates a physical server for each website. By going with dedicated hosting, you can configure the server, choose your desired operating system and software, and customize the entire hosting environment to your specifications.
 ![](src/dedicatedserver-1200x385.webp)
 
-Renting a dedicated server is just as powerful as having your own on-site server, but with the added benefit of getting professional support from your web host. Thus, dedicated hosting is ideal for large online businesses that deal with heavy traffic.
+- Renting a dedicated server is just as powerful as having your own on-site server, but with the added benefit of getting professional support from your web host. Thus, dedicated hosting is ideal for large online businesses that deal with heavy traffic.
+
+
+### VPS
+- VPS (Virtual Private Server) is a hosting service that uses virtualization technology to provide you with dedicated (private) resources on a server with multiple users.
+
+![](src/vps.webp)
+
+- VPS is a more secure and stable solution than shared hosting where you don’t get a dedicated server space. However, it’s smaller-scale and cheaper than renting an entire server.
+- VPS hosting is usually chosen by website owners who have medium-level traffic that exceeds the limits of shared hosting plans but still don’t need the resources of a dedicated server.
+
+#### How does VPS hosting work
+- A server is a computer on which your web host stores the files and databases needed for your website. Whenever an online visitor wants to access your website, their browser sends a request to your server and it transfers the necessary files through the internet. VPS hosting provides you with a virtual server that simulates a physical server, however, in reality, the machine is shared among several users. 
+- Using virtualization technology, your hosting provider installs a virtual layer on top of the operating system (OS) of the server. This layer divides the server into partitions and allows each user to install their own OS and software.
+- Therefore, a virtual private server (VPS) is both virtual and private because you have complete control. It is separated from other server users on the OS level. In fact, VPS technology is similar to creating partitions on your own computer when you want to run more than one OS (e.g. Windows and Linux) without a reboot.
+
+
+### Server 
+- A server is a computer program or device that provides a service to another computer program and its user, also known as the client. In a data center, the physical computer that a server program runs on is also frequently referred to as a server. That machine might be a dedicated server or it might be used for other purposes
+- For example, when you use a computer, or facebook messenger software...etc, it means you are a client. The Facebook server will play the role of providing information and providing services for you to use.
+- The data provided by the server server or stored on the server server is usually called a service: Information provision service, information storage service.
+
+#### Type of Server
+1. **Web Server**: A web server powers the site you’re looking at right now. This genre of server focuses on serving web content to clients.
+2. **Database Server**: A database server typically operates in tandem with another type of server. This kind of server simply exists to store data in groups.
+3. **eMail Server**: An email server typically runs on “SMTP” or “Simple Mail Transfer Protocol”. There are other possible protocols that newer mail servers operate on, but SMTP remains the dominant protocol.
+4. **Web Proxy Server**: A web proxy server can run on one of many protocols, but they all do one thing in common. They take in user requests, filter them, and then act on the user’s behalf. The most popular type of web proxy server is designed to get around school and organizational web filters. Some Ports used for Web Proxy Servers: Port 8080, 8888 etc
+5. **DNS Server**: A DNS server, or “Domain Name Service” server, is used to translate domain names to their corresponding IP addresses. Ports used for DNS Servers: Port 53 (both TCP and UDP).
+6. **FTP Server**: FTP servers, or “File Transfer Protocol” servers, have a single purpose: to host a file exchange among users. Some Ports used for FTP Servers: Ports 20,21 for FTP or Port 22 for sFTP.
+7. **File Server**: A File Server is different from an FTP server. This type of server is more modern and is typically capable of “mapping” networked files onto drives. This means that users can use their home computer’s file browser to look into folders.
+8. **DHCP Server**: A DHCP Server uses the Dynamic Host Communication Protocol (DHCP) to configure the network settings of client computers. Port used for DHCP Servers: Port UDP 67.
+
+
+<div id='5'></div>
+
+## 5. Reverse proxy and operating principle.
