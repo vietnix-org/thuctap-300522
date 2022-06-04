@@ -243,3 +243,51 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 - **Tables:** nat
 - **Chain:** POSTROUTING
 - **Infor:** This chain should first and foremost be used for SNAT. Avoid doing filtering here, since certain packets might pass this chain without ever hitting it. This is also where Masquerading is done. Finally, it goes out on the outgoing interface and out on the wire.
+
+
+*********
+
+<div id='2'></div>
+
+## 2. Use module TRACE to follow flow of packet
+
+
+
+
+
+<div id='3'></div>
+
+## 3. Read iptables rules to debug
+
+
+
+
+<div id='4'></div>
+
+## 4. tcpdump and another options to debug network
+
+### tcpdump
+
+Tcpdump is a command line utility that allows you to capture and analyze network traffic going through your system. It is often used to help troubleshoot network issues, as well as a security tool.
+
+**Examples:**
+1. Display Available Interfaces
+
+![](src/tcp_1.png)
+
+
+2. Capture Packets from Specific Interface
+The command screen will scroll up until you interrupt and when we execute the tcpdump command it will captures from all the interfaces, however with -i switch only capture from the desired interface.
+```
+tcpdump -i interface_name
+```
+
+![](src/tcp_2.png)
+
+3. Capture Only N Number of Packets
+When you run the tcpdump command it will capture all the packets for the specified interface, until you hit the cancel button. But using **-c** option, you can capture a specified number of packets. The below example will only capture 6 packets.
+
+![](src/tcp_3.png)
+
+4. Capture and Save Packets in a File
+![](src/tcp_w.png)
