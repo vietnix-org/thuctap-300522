@@ -136,8 +136,8 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 - Packet comes in on the interface (eth0, ...)
 
 ##### Step 3
-- **Tables: raw tables**
-- **Chain: PREROUTING**
+- **Tables:** raw 
+- **Chain:** PREROUTING
 - **Infor:** This chain is used to handle packets. To control the state of the connection before the kernel starting tracking its state (new or existing connection). And after that, the connection tracking code takes place.
 
 ##### Step 4:
@@ -202,4 +202,44 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 - **Tables:** nat 
 - **Chain:** POSTROUTING
 - **Infor:** This is where we do SNAT as described earlier. It is suggested that you don't do filtering here since it can have side effects, and certain packets might slip through even though you set a default policy of DROP. Finally, it goes out on some interface, and comes on the wire, Internet.
-- 
+  
+
+#### Forwarded packets
+##### Step 1
+- Process/Apllication on the wire. After that comes in on the interface (eth0,...)
+
+##### Step 2
+- **Tables:** raw
+- **Chain:** PREROUTING
+- **Infor:** Here you can set a connection to not be handled by the connection tracking system.
+
+##### Step 3
+- **Tables:** mangle
+- **Chain:** PREROUTING
+- **Infor:** mangling the packet (TOS, TTL, mark, ...)
+
+##### Step 4
+- **Tables:** nat
+- **Chain:** PREROUTING
+- **Infor:** This chain is used for DNAT mainly. SNAT is done further on. Avoid filtering in this chain since it will be bypassed in certain cases. After that, routing decision.
+  
+##### Step 5
+- **Tables:** mangle 
+- **Chain:** FORWARD
+- **Infor:** The packet is then sent on to the FORWARD chain of the mangle table.
+
+##### Step 6:
+- **Tables:** filter
+- **Chain:** FORWARD
+- **Infor:** The packet gets routed onto the FORWARD chain. Only forwarded packets go through here, and here we do all the filtering. Note that all traffic that's forwarded goes through here (not only in one direction), so you need to think about it when writing your rule-set.
+
+
+##### Step 7
+- **Tables:** mangle 
+- **Chain:** POSTROUTING
+- **Infor:** This chain is used for specific types of packet mangling that we wish to take place after all kinds of routing decisions have been done, but still on this machine.
+
+##### Step 8
+- **Tables:** nat
+- **Chain:** POSTROUTING
+- **Infor:** This chain should first and foremost be used for SNAT. Avoid doing filtering here, since certain packets might pass this chain without ever hitting it. This is also where Masquerading is done. Finally, it goes out on the outgoing interface and out on the wire.
