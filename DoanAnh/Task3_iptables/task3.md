@@ -9,18 +9,21 @@
 
 <div id='1'></div>
 
-## iptables packet flow diagram
+## 1. iptables packet flow diagram
 - When a packet first enters the firewall, it hits the hardware and then gets passed on to the proper device driver in the kernel. Then the packet starts to go through a series of steps in the kernel, before it is either sent to the correct application (locally), or forwarded to another host - or whatever happens to it. 
 
 ![](src/ip_flow.png)
 
-### Tables in iptables 
+![](src/iptables_1.webp)
+
+### Tables && chains 
 
 #### Raw tables:
 
 ![](src/raw.png)
 
-- The raw table and its chains are used before any other tables in netfilter. It was introduced to use the NOTRACK target. This table is rather new and is only available, if compiled, with late 2.6 kernels and later. The raw table contains two chains. The PREROUTING and OUTPUT chain, where they will handle packets before they hit any of the other netfilter subsystems. The PREROUTING chain can be used for all incoming packets to this machine, or that are forwarded, while the OUTPUT chain can be used to alter the locally generated packets before they hit any of the other netfilter subsystems. 
+- The raw table and its chains are used before any other tables in netfilter. Iptables is a stateful firewall, which means that packets are inspected with respect to their “state”. (For example, a packet could be part of a new connection, or it could be part of an existing connection.) The raw table allows you to work with packets before the kernel starts tracking its state. In addition, you can also exempt certain packets from the state-tracking machinery.
+- The raw table contains two chains. The PREROUTING and OUTPUT chain, where they will handle packets before they hit any of the other netfilter subsystems. The PREROUTING chain can be used for all incoming packets to this machine, or that are forwarded, while the OUTPUT chain can be used to alter the locally generated packets before they hit any of the other netfilter subsystems. 
 
 #### Mangle tables: 
 
@@ -60,4 +63,80 @@ iptables -A POSTROUTING -t mangle -j CONNMARK --save-mark
 #### NAT tables
 
 ![](src/nat.png)
+
+This table is only used to perform NAT operations. Only the first packet in a stream of packets hits this table, and al subsequent packets of that stream follow whatever is determined with the first packet. You can do the following:
+- SNAT (what we typically think of with NAT – you have a public IP, behind which is a network of private IPs, you want the machines in this private IP network to be able to access the public Internet but since their IPs are private these networks are not routable and so you hide them all behind the public IP; as far as the outside world is concerned all traffic of all the machines in your private network originate from/ are destined to this public IP) (SNAT == Source NAT; source being your private network from where traffic originates and whose real source IP gets changed by this table) 
+    - MASQUERADE (a special case of SNAT wherein you don’t need to specify the public IP, Iptables will use the source address of the outgoing interface; useful when your public IP could change and you don’t want to specify it)
+- DNAT (the opposite of the above; you have some server in your private IP space and since this is not routable on the Internet you want requests hitting your public IP to be sent to this server instead, so you are rewriting the destination address whereas with SNAT you are rewriting the source address; this is not the same as port forwarding but you can use DNAT to do port forwarding too). In a simple way, DNAT help server outside (ip/port public) get to server inside (ip/port private).
+
+**Examples:**
+
+**SNAT&MASQUERADE**
+```
+## Change source addresses to 1.2.3.4.
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 1.2.3.4
+ 
+## Change source addresses to 1.2.3.4, 1.2.3.5 or 1.2.3.6
+iptables -t nat -A POSTROUTING -o eth0 -j SNAT --to 1.2.3.4-1.2.3.6
+ 
+## Change source addresses to 1.2.3.4, ports 1-1023
+iptables -t nat -A POSTROUTING -p tcp -o eth0 -j SNAT --to 1.2.3.4:1-1023
+ 
+## Masquerade everything out ppp0.
+iptables -t nat -A POSTROUTING -o ppp0 -j MASQUERADE
+```
+Note that SNAT & MASQUERADE are always in the POSTROUTING chain. Because it happens as the packets are exiting the machine. It is the last step before the packets exit.
+
+![](src/snat.webp)
+
+
+**DNAT & REDIRECT**
+```
+## Change destination addresses to 5.6.7.8
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 5.6.7.8
+ 
+## Change destination addresses to 5.6.7.8, 5.6.7.9 or 5.6.7.10.
+iptables -t nat -A PREROUTING -i eth0 -j DNAT --to 5.6.7.8-5.6.7.10
+ 
+## Change destination addresses of web traffic to 5.6.7.8, port 8080.
+iptables -t nat -A PREROUTING -p tcp --dport 80 -i eth0 -j DNAT --to 5.6.7.8:8080
+
+```
+
+Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering but after any actions by the Raw and Mangle tables.
+
+![](src/dnat.webp)
+
+
+#### Filter table
+- The filter table should be used exclusively for filtering packets. For example, we could DROP, LOG, ACCEPT or REJECT packets without problems, as we can in the other tables. There are three chains built in to this table. 
+  - FORWARD is used on all non-locally generated packets that are not destined for our local host (the firewall, in other words). 
+  - INPUT is used on all packets that are destined for our local host (the firewall)
+  - OUTPUT is finally used for all locally generated packets. 
+
+
+***
+
+### Targets 
+- As we’ve mentioned before, chains allow you to filter traffic by adding rules to them. So for example, you could add a rule on the filter table’s INPUT chain to match traffic on port 22. But what would you do after matching them? That’s what targets are for — they decide the fate of a packet.
+- The most commonly used terminating targets are:
+    - ACCEPT: This causes iptables to accept the packet.
+    - DROP: iptables drops the packet. To anyone trying to connect to your system, it would appear like the system didn’t even exist.
+    - REJECT: iptables “rejects” the packet. It sends a “connection reset” packet in case of TCP, or a “destination host unreachable” packet in case of UDP or ICMP.
+
+
+### Traversing of packet in situation:
+
+#### Packet destination IP is IP server (local host)
+
+##### Step 1
+- Packet from the wire outside (Internet, ....)
+
+##### Step 2
+- Packet comes in on the interface (eth0, ...)
+
+##### Step 3
+**Tables: raw tables**
+**Chain: PREROUTING**
+**Infor:** This chain is used to handle packets. To control the state of the connection before the kernel starting tracking its state (new or existing connection)
 
