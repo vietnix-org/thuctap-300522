@@ -136,7 +136,70 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 - Packet comes in on the interface (eth0, ...)
 
 ##### Step 3
-**Tables: raw tables**
-**Chain: PREROUTING**
-**Infor:** This chain is used to handle packets. To control the state of the connection before the kernel starting tracking its state (new or existing connection)
+- **Tables: raw tables**
+- **Chain: PREROUTING**
+- **Infor:** This chain is used to handle packets. To control the state of the connection before the kernel starting tracking its state (new or existing connection). And after that, the connection tracking code takes place.
 
+##### Step 4:
+- **Tables:** mangle
+- **Chain:** PREROUTING
+- **Infor:** mangling the packets ex: TTL, TOS,...
+
+##### Step 5: 
+- **Tables:** nat 
+- **Chain:** PREROUTING
+- **Infor:** It will use DNAT to translate public ip/port to private ip/port. Avoid filtering in this chain since it will be bypassed in certain cases.
+
+##### Step 6: 
+- Routing decision: is the packet destination for our local host or to be forwarded and where
+  
+
+##### Step 7:
+- **Tables:** mangle
+- **Chain:** INPUT
+- **Infor:** We use this chain to mangle packets, after they have been routed, but before they are actually sent to the process on the machine.
+
+##### Step 8:
+- **Tables:** Filter
+- **Chain:** INPUT
+- **Infor:** This is where we do filtering for all incoming traffic destined for our local host.
+
+##### Final step:
+- Local process or application (server, client program,....)
+
+
+
+#### Packet from local to outside
+
+##### Step 1:
+- Local process/application. Routing decision. What source address to use, what outgoing interface to use, and other necessary information that needs to be gathered.
+##### Step 2: 
+- **Tables:** raw
+- **Chain:** OUTPUT
+- **Infor:** This is where you do work before the connection tracking has taken place for locally generated packets. You can mark connections so that they will not be tracked for example. After that, connection tracking will takes places for locally generated packets.
+  
+##### Step 3:
+- **Tables:** mangle
+- **Chain:** OUTPUT
+- **Infor:** This is where we mangle packets, it is suggested that you do not filter in this chain since it can have side effects.
+
+##### Step 4:
+- **Tables:** nat 
+- **Chain:** OUTPUT
+- **Infor:** This chain can be used to NAT outgoing packets from the firewall itself. Next, Routing decision, since the previous mangle and nat changes may have changed how the packet should be route.
+
+##### Step 5:
+- **Tables:** filter
+- **Chain:** OUTPUT 
+- **Infor:** This is where we filter packets going out from the local host.
+
+##### Step 6:
+- **Tables:** mangle
+- **Chain:** POSTROUTING
+- **Infor:** The POSTROUTING chain in the mangle table is mainly used when we want to do mangling on packets before they leave our host, but after the actual routing decisions. This chain will be hit by both packets just traversing the firewall, as well as packets created by the firewall itself.
+
+##### Step 7:
+- **Tables:** nat 
+- **Chain:** POSTROUTING
+- **Infor:** This is where we do SNAT as described earlier. It is suggested that you don't do filtering here since it can have side effects, and certain packets might slip through even though you set a default policy of DROP. Finally, it goes out on some interface, and comes on the wire, Internet.
+- 
