@@ -259,7 +259,38 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 ## 3. Read iptables rules to debug
 
+### iptables options:
+```
+| Parameter         | Description |
+| ------------------| ----------------------------------------------|
+| -p, --protocol    |  The protocol, such as TCP, UDP, etc.               |
+| -s, --source      |  Can be an address, network name, hostname, etc.    |
+| -d, --destination |  An address, hostname, network name, etc.           |
+| -j, --jump        |  Specifies the target of the rule; i.e. what to do if the packet matches. |
+| -s, --source      |  Can be an address, network name, hostname, etc.    |
+| -s, --source      |  Can be an address, network name, hostname, etc.    |
 
+
+```
+
+
+### Allow/Block IP X access to IP dest A.B.C.D port YYY
+
+#### Allow 
+```
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j ACCEPT
+```
+
+#### Block
+```
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j DROP
+```
+
+### Allow/Block new IP access to IP dest A.B.C.D port YYY
+#### Allow
+```
+iptables - A INPUT -p tcp --state NEW -d A.B.C.D -dport YYY -j ACCEPT
+```
 
 
 <div id='4'></div>
@@ -330,5 +361,16 @@ When you run the tcpdump command it will capture all the packets for the specifi
 
 ![](src/tcp_port.png)
 
+
+9. Isolate all SYN packets
+``` 
+tcpdump 'tcp[13]&2!=0'
+tcpdump 'tcp[tcpflags]==tcp-syn'
+tcpdump -n tcp and port 80 and 'tcp[tcpflags] & tcp-syn == tcp-syn'
+tcpdump tcp and port 80 and 'tcp[tcpflags] == tcp-syn'
+tcpdump -i <interface> "tcp[tcpflags] & (tcp-syn) != 0"
+```
+
+![](src/tcp_S.png)
 
  
