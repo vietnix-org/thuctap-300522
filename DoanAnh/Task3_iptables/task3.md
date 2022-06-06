@@ -252,9 +252,6 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 ## 2. Use module TRACE to follow flow of packet
 
 
-
-
-
 <div id='3'></div>
 
 ## 3. Read iptables rules to debug
@@ -283,15 +280,11 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 | -X, --delete-chain <_name_> | Delete the user-defined chain |
 
 
-
-
-
-
 ### Allow/Block IP X access to IP dest A.B.C.D port YYY
 
 #### Allow 
 ```
-iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j ACCEPT
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j ACCEPT
 ```
 
 ![](src/iptables_task1_3.png)
@@ -300,7 +293,7 @@ iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j ACCEPT
 
 #### Block
 ```
-iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j DROP/REJECT
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j DROP/REJECT
 ```
 
 ![](src/iptables_task1.png)
@@ -309,10 +302,25 @@ iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j DROP/REJECT
 
 
 ### Allow/Block new IP access to IP dest A.B.C.D port YYY
-#### Allow
+
 ```
-iptables - A INPUT -p tcp --state NEW -d A.B.C.D -dport YYY -j ACCEPT
+iptables -A INPUT -p tcp -m state --state NEW -d 172.16.204.128 --dport 22 REJECT
+
+iptables -A INPUT -p tcp -m state --state ESTABLISHED, RELATED -d 172.16.204.128 --dport 22 -j ACCEPT
 ```
+
+![](src/iptables_task2_1.png)
+
+### Allow/Block IP Y.J.K.F access to IP dest A.B.C.D port YYY with TTL 128,64 and Length 1000
+
+![](src/iptables_task3_1.png)
+
+![](src/iptables_task3_2.png)
+
+
+### Set comment for iptables rules:
+
+![](src/iptables_task4.png)
 
 
 <div id='4'></div>
@@ -325,7 +333,6 @@ Tcpdump is a command line utility that allows you to capture and analyze network
 
 ### Flag in tcpdump
 
-              **TCPDUMP FLAGS**
 URG  =  (Not Displayed in Flag Field, Displayed elsewhere) 
 ACK  =  (Not Displayed in Flag Field, Displayed elsewhere)
 PSH  =  [P] (Push Data)
