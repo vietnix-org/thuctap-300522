@@ -270,6 +270,19 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 Tcpdump is a command line utility that allows you to capture and analyze network traffic going through your system. It is often used to help troubleshoot network issues, as well as a security tool.
 
+### Flag in tcpdump
+
+              **TCPDUMP FLAGS**
+URG  =  (Not Displayed in Flag Field, Displayed elsewhere) 
+ACK  =  (Not Displayed in Flag Field, Displayed elsewhere)
+PSH  =  [P] (Push Data)
+RST  =  [R] (Reset Connection)
+SYN  =  [S] (Start Connection)
+FIN  =  [F] (Finish Connection)
+SYN-ACK =  [S.] (SynAcK Packet)
+         [.] (No Flag Set)
+  
+
 **Examples:**
 1. Display Available Interfaces
 
@@ -284,10 +297,38 @@ tcpdump -i interface_name
 
 ![](src/tcp_2.png)
 
-3. Capture Only N Number of Packets
+3. Capture Only Number of Packets
 When you run the tcpdump command it will capture all the packets for the specified interface, until you hit the cancel button. But using **-c** option, you can capture a specified number of packets. The below example will only capture 6 packets.
 
 ![](src/tcp_3.png)
 
 4. Capture and Save Packets in a File
 ![](src/tcp_w.png)
+
+**Read the packet file:**
+
+![](src/tcp_r.png)
+
+5. Capture IP Address Packets
+
+![](src/tcp_ni.png)
+
+6. Capture only TCP Packets.
+
+![](src/tcp_tcp.png)
+
+7. Capture Packets from source IP
+- To capture packets from **source IP**, say you want to capture packets for **10.1.87.183**, use the command as follows.
+
+![](src/tcp_src.png)
+
+** Capture Packets from destination IP
+
+![](src/tcp_des.png)
+
+8. Capture the packet that outbound port 443 and from source IP
+
+![](src/tcp_port.png)
+
+
+ 
