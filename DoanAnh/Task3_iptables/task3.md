@@ -259,19 +259,32 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 ## 3. Read iptables rules to debug
 
-### iptables options:
-```
+### iptables parameter and options: 
 | Parameter | Description |
 | --- | --- |
-| -p, --protocol |  The protocol, such as TCP, UDP, etc. |
-| -s, --source |  Can be an address, network name, hostname, etc. |
-| -d, --destination |  An address, hostname, network name, etc. |
-| -j, --jump |  Specifies the target of the rule; i.e. what to do if the packet matches. |
-| -s, --source |  Can be an address, network name, hostname, etc. |
-| -s, --source |  Can be an address, network name, hostname, etc. |
+| -p, --protocol | The protocol, such as TCP, UDP, etc. |
+| -s, --source | Can be an address, network name, hostname, etc. |
+| -d, --destination | An address, hostname, network name, etc. |
+| -j, --jump | Specifies the target of the rule; i.e. what to do if the packet matches. |
+| -i, --in-interface | Names the interface from where packets are received. |
+| -c, --set-counters | Enables the admin to initialize the packet and byte counters of a rule. |
+
+| Options | Description |
+| --- | --- |
+| -A, --append | Add one or more rules to the end of the selected chain. |
+| -C, --check | Check for a rule matching the specifications in the selected chain |
+| -D, --delete | Delete one or more rules from the selected chain |
+| -F, --flush | Delete all the rules one-by-one |
+| -I, --insert| Insert one or more rules into the selected chain as the given rule number. |
+| -L, --list | Display the rules in the selected chain |
+| -n, --numeric| Display the IP address or hostname and post number in numeric format |
+| -N, --new-chain <_name_> | Create a new user-defined chain. |
+| -v, --verbose | Provide more information when used with the list option |
+| -X, --delete-chain <_name_> | Delete the user-defined chain |
 
 
-```
+
+
 
 
 ### Allow/Block IP X access to IP dest A.B.C.D port YYY
@@ -281,10 +294,19 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j ACCEPT
 ```
 
+![](src/iptables_task1_3.png)
+
+![](src/iptables_task1_4.png)
+
 #### Block
 ```
-iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j DROP
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D -dport YYY -j DROP/REJECT
 ```
+
+![](src/iptables_task1.png)
+
+![](src/iptables_task1_2.png)
+
 
 ### Allow/Block new IP access to IP dest A.B.C.D port YYY
 #### Allow
