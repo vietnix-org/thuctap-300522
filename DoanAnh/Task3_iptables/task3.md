@@ -261,14 +261,14 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 ### iptables options:
 ```
-| Parameter         | Description |
-| ------------------| ----------------------------------------------|
-| -p, --protocol    |  The protocol, such as TCP, UDP, etc.               |
-| -s, --source      |  Can be an address, network name, hostname, etc.    |
-| -d, --destination |  An address, hostname, network name, etc.           |
-| -j, --jump        |  Specifies the target of the rule; i.e. what to do if the packet matches. |
-| -s, --source      |  Can be an address, network name, hostname, etc.    |
-| -s, --source      |  Can be an address, network name, hostname, etc.    |
+| Parameter | Description |
+| --- | --- |
+| -p, --protocol |  The protocol, such as TCP, UDP, etc. |
+| -s, --source |  Can be an address, network name, hostname, etc. |
+| -d, --destination |  An address, hostname, network name, etc. |
+| -j, --jump |  Specifies the target of the rule; i.e. what to do if the packet matches. |
+| -s, --source |  Can be an address, network name, hostname, etc. |
+| -s, --source |  Can be an address, network name, hostname, etc. |
 
 
 ```
