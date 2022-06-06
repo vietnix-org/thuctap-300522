@@ -252,14 +252,75 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 ## 2. Use module TRACE to follow flow of packet
 
 
-
-
-
 <div id='3'></div>
 
 ## 3. Read iptables rules to debug
 
+### iptables parameter and options: 
+| Parameter | Description |
+| --- | --- |
+| -p, --protocol | The protocol, such as TCP, UDP, etc. |
+| -s, --source | Can be an address, network name, hostname, etc. |
+| -d, --destination | An address, hostname, network name, etc. |
+| -j, --jump | Specifies the target of the rule; i.e. what to do if the packet matches. |
+| -i, --in-interface | Names the interface from where packets are received. |
+| -c, --set-counters | Enables the admin to initialize the packet and byte counters of a rule. |
 
+| Options | Description |
+| --- | --- |
+| -A, --append | Add one or more rules to the end of the selected chain. |
+| -C, --check | Check for a rule matching the specifications in the selected chain |
+| -D, --delete | Delete one or more rules from the selected chain |
+| -F, --flush | Delete all the rules one-by-one |
+| -I, --insert| Insert one or more rules into the selected chain as the given rule number. |
+| -L, --list | Display the rules in the selected chain |
+| -n, --numeric| Display the IP address or hostname and post number in numeric format |
+| -N, --new-chain <_name_> | Create a new user-defined chain. |
+| -v, --verbose | Provide more information when used with the list option |
+| -X, --delete-chain <_name_> | Delete the user-defined chain |
+
+
+### Allow/Block IP X access to IP dest A.B.C.D port YYY
+
+#### Allow 
+```
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j ACCEPT
+```
+
+![](src/iptables_task1_3.png)
+
+![](src/iptables_task1_4.png)
+
+#### Block
+```
+iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j DROP/REJECT
+```
+
+![](src/iptables_task1.png)
+
+![](src/iptables_task1_2.png)
+
+
+### Allow/Block new IP access to IP dest A.B.C.D port YYY
+
+```
+iptables -A INPUT -p tcp -m state --state NEW -d 172.16.204.128 --dport 22 REJECT
+
+iptables -A INPUT -p tcp -m state --state ESTABLISHED, RELATED -d 172.16.204.128 --dport 22 -j ACCEPT
+```
+
+![](src/iptables_task2_1.png)
+
+### Allow/Block IP Y.J.K.F access to IP dest A.B.C.D port YYY with TTL 128,64 and Length 1000
+
+![](src/iptables_task3_1.png)
+
+![](src/iptables_task3_2.png)
+
+
+### Set comment for iptables rules:
+
+![](src/iptables_task4.png)
 
 
 <div id='4'></div>
@@ -269,6 +330,18 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 ### tcpdump
 
 Tcpdump is a command line utility that allows you to capture and analyze network traffic going through your system. It is often used to help troubleshoot network issues, as well as a security tool.
+
+### Flag in tcpdump
+
+URG  =  (Not Displayed in Flag Field, Displayed elsewhere) 
+ACK  =  (Not Displayed in Flag Field, Displayed elsewhere)
+PSH  =  [P] (Push Data)
+RST  =  [R] (Reset Connection)
+SYN  =  [S] (Start Connection)
+FIN  =  [F] (Finish Connection)
+SYN-ACK =  [S.] (SynAcK Packet)
+         [.] (No Flag Set)
+  
 
 **Examples:**
 1. Display Available Interfaces
@@ -284,10 +357,49 @@ tcpdump -i interface_name
 
 ![](src/tcp_2.png)
 
-3. Capture Only N Number of Packets
+3. Capture Only Number of Packets
 When you run the tcpdump command it will capture all the packets for the specified interface, until you hit the cancel button. But using **-c** option, you can capture a specified number of packets. The below example will only capture 6 packets.
 
 ![](src/tcp_3.png)
 
 4. Capture and Save Packets in a File
 ![](src/tcp_w.png)
+
+**Read the packet file:**
+
+![](src/tcp_r.png)
+
+5. Capture IP Address Packets
+
+![](src/tcp_ni.png)
+
+6. Capture only TCP Packets.
+
+![](src/tcp_tcp.png)
+
+7. Capture Packets from source IP
+- To capture packets from **source IP**, say you want to capture packets for **10.1.87.183**, use the command as follows.
+
+![](src/tcp_src.png)
+
+** Capture Packets from destination IP
+
+![](src/tcp_des.png)
+
+8. Capture the packet that outbound port 443 and from source IP
+
+![](src/tcp_port.png)
+
+
+9. Isolate all SYN packets
+``` 
+tcpdump 'tcp[13]&2!=0'
+tcpdump 'tcp[tcpflags]==tcp-syn'
+tcpdump -n tcp and port 80 and 'tcp[tcpflags] & tcp-syn == tcp-syn'
+tcpdump tcp and port 80 and 'tcp[tcpflags] == tcp-syn'
+tcpdump -i <interface> "tcp[tcpflags] & (tcp-syn) != 0"
+```
+
+![](src/tcp_S.png)
+
+ 
