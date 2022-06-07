@@ -251,6 +251,53 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 ## 2. Use module TRACE to follow flow of packet
 
+### Traceroute
+- A traceroute provides a map of how data on the internet travels from your computer to its destination.
+- A traceroute works by sending Internet Control Message Protocol (ICMP) packets, and every router involved in transferring the data gets these packets. The ICMP packets provide information about whether the routers used in the transmission are able to effectively transfer the data.
+
+**Syntax:**
+```
+traceroute domain_name
+```
+
+**Flags:**
+
+![](src/traceroute.png)
+
+### Tracepath
+- **tracepath** command in Linux is used to traces path to destination discovering MTU along this path. It uses UDP port or some random port. It is similar to traceroute, but it does not require superuser privileges and has no fancy options. tracepath6 is a good replacement for traceroute6 and classic example of the application of Linux error queues. The situation with IPv4 is worse because commercial IP routers do not return enough information in ICMP error messages. 
+
+**Syntax:**
+```
+tracepath [-n] [-b] [-l pktlen] [-m max_hops] [-p port] destination
+```
+
+**Examples:**
+
+- n: Do not look up host names. Only print IP addresses numerically
+```
+tracepath -n destination ip or domain name
+```
+
+
+![](src/tracepath_n.png)
+
+- b: The option b, will print hostname and IP Addresses in the output.
+
+``` 
+tracepath -b destination ip or domain name 
+```
+
+![](src/tracepath_b.png
+
+- l: this option for tracepath will allow to set the packet length initially to pktlen. 
+```
+tracepath -l <num> destination ip or domain name
+```
+
+![](src/tracepath_l.png)
+
+
 
 <div id='3'></div>
 
