@@ -331,32 +331,28 @@ tracepath -l <num> destination ip or domain name
 
 #### Allow 
 ```
-iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j ACCEPT
+iptables -t raw -A PREROUTING -p tcp -s IP_X -d A.B.C.D --dport YYY -j ACCEPT
 ```
+![](src/iptables_task1_2.png)
 
-![](src/iptables_task1_3.png)
-
-![](src/iptables_task1_4.png)
 
 #### Block
 ```
-iptables -A INPUT -p tcp -s IP_X -d A.B.C.D --dport YYY -j DROP/REJECT
+iptables -t raw -A PREROUTING -p tcp -s IP_X -d A.B.C.D --dport YYY -j DROP
 ```
 
-![](src/iptables_task1.png)
-
-![](src/iptables_task1_2.png)
+![](src/iptables_task1_3.png)
 
 
 ### Allow/Block new IP access to IP dest A.B.C.D port YYY
 
 ```
-iptables -A INPUT -p tcp -m state --state NEW -d 172.16.204.128 --dport 22 REJECT
+iptables -t mangle -A PREROUTING -p tcp -m state --state NEW -d 172.16.204.128 --dport 22 -j DROP
 
-iptables -A INPUT -p tcp -m state --state ESTABLISHED, RELATED -d 172.16.204.128 --dport 22 -j ACCEPT
+iptables -t mangle -A PREROUTING -p tcp -m state --state ESTABLISHED, RELATED -d 172.16.204.128 --dport 22 -j ACCEPT
 ```
+![](src/iptables_task2.png)
 
-![](src/iptables_task2_1.png)
 
 ### Allow/Block IP Y.J.K.F access to IP dest A.B.C.D port YYY with TTL 128,64 and Length 1000
 
