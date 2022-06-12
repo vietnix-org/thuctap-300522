@@ -107,3 +107,35 @@ sudo chown -R tidiay:tidiay /var/www/html/*
 ```
 
 ![](src1/chown.png)
+
+**Step 7: Configuring WordPress**
+1. Create a wp-config.php file by copying the sample file WordPress has provided. 
+``` 
+cp wp-config-sample.php wp-config.php
+```
+
+After that config this file with your database:
+
+![](src1/config_wp.png)
+
+### Setup VHost
+1. Config file http.conf in **/etc/httpd/conf/**
+
+![](src1/vhost_1.png)
+
+![](src1/httpd_conf.png)
+
+![](src1/httpdconf.png)
+
+2. Create 2 file sites-available and sites-enabled 
+![](src1/mkdir_file.png)
+
+3. Create file config vhost in /etc/httpd/sites-availabe/
+
+![](src1/site_available.png)
+
+4. After that, create symlink to /etc/httpd/sites-enabled/
+
+### Finish and go to you website to check
+
+![](src1/finish.png)
