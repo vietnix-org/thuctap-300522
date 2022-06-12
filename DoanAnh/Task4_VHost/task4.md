@@ -204,3 +204,89 @@ Install php8.1.7 and extension
 #### Finish and go to website to check:
 
 ![](src2/laravel.png)
+
+
+
+
+<div id='2'></div>
+
+## **2. LEMP stack: wordpress and laravel in ubuntu 22.04**
+
+### LEMP stack, wordpress and vhost in ubuntu 22.04
+
+1. Update sudo and Install nginx 
+
+![](src3/install_nginx.png)
+
+- If you have the ufw firewall enabled, as recommended in our initial server setup guide, you will need to allow connections to Nginx. Nginx registers a few different UFW application profiles upon installation. To check which UFW profiles are available, run:
+
+![](src3/ufw.png)
+
+- Check status ufw:
+  
+![](src3/ufw_status.png)
+
+2. Install MySQL
+```
+sudo apt install mysql-server
+sudo mql_secure_installation
+```
+
+![](src3/mysql_installation.png)
+
+- Then config mysql in wordpress folder:
+  
+![](src3/config_sql.png)
+
+![](src3/mysql.png)
+
+
+3. Install PHP
+
+```
+sudo apt install php8.1-mysql php8.1-curl php8.1-xml php8.1-cli
+```
+
+![](src3/php-v.png)
+
+**Config file /etc/php/8.1/fpm/pool.d/www.conf**
+
+![](src3/www-conf.png)
+
+4. Configuring Nginx to Use the PHP Processor
+
+![](src3/wordpress_file.png)
+
+Then, open a new configuration file in Nginx’s sites-available directory using your preferred command-line editor.
+```
+sudo vim /etc/nginx/sites-available/wordpress.training.vn.conf
+```
+And config this file like that:
+
+![](src3/real.png)
+
+Activate your configuration by linking to the configuration file from Nginx’s sites-enabled directory:
+
+![](src3/ln-s.png)
+
+5. Download and install wordpress:
+```
+wget https://wordpress.org/latest.zip
+```
+
+![](src3/wordpress_install.png)
+
+![](src3/chmod-own.png)
+
+
+- Test nginx and restart nginx service:
+
+![](src3/nginx-t.png)
+
+- Finally, edit file /etc/hosts
+  
+![](src3/hosts.png)
+
+- Go to website and check the result:
+
+![](src3/result.png)
