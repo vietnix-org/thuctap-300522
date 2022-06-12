@@ -118,7 +118,7 @@ After that config this file with your database:
 
 ![](src1/config_wp.png)
 
-### Setup VHost
+#### Setup VHost
 1. Config file http.conf in **/etc/httpd/conf/**
 
 ![](src1/vhost_1.png)
@@ -136,6 +136,71 @@ After that config this file with your database:
 
 4. After that, create symlink to /etc/httpd/sites-enabled/
 
-### Finish and go to you website to check
+#### Finish and go to you website to check
 
 ![](src1/finish.png)
+
+
+### Laravel
+1. Setup Yum Repositories
+First, we need to add the REMI and EPEL rpm repositories in your system. These repositories contain the updated packages. You can use the following commands to set up the rpm repositories
+```
+rpm -Uvh https://dl.fedoraproject.org/pub/epel/7/x86_64/Packages/e/epel-release-7-12.noarch.rpm
+rpm -Uvh http://rpms.famillecollet.com/enterprise/remi-release-7.rpm
+```
+2. Setup LAMP (finished)
+3. Setup Composer
+Composer is a command-line program that installs packages and libraries available on the packagist.org repository – Composer's main repository.
+Composer is a very useful tool for developers when they need and want to manage and combine packages for their PHP project.
+
+![](src2/composer_setup.png)
+
+4. Setup Laravel with Git
+
+![](src2/laravel_setup.png)
+
+Install php8.1.7 and extension 
+
+![](src2/php-extention.png)
+
+![](src2/php-xml.png)
+
+**Remember to change owner of file laravel**
+
+![](src2/owner.png)
+
+- Set encryption key
+
+![](src2/encrypt.png)
+
+- Update composer: 
+
+![](src2/composer_update.png)
+
+- Install laravel:
+
+![](src2/install_laravel.png)
+
+
+#### Setup VHost (Same with wordpress)
+
+- Config file **/etc/httpd/conf/httpd.conf**
+  
+ ![](src2/httpd_conf.png)
+
+- Create new file **laravel.training.vn** in /etc/httpd/sites-available/ and config:
+  
+![](src2/laravel_conf.png)
+
+- After that, create symlink to sites-enabled 
+
+![](src2/ln-s.png)
+
+- Edit file /etc/hosts to add your domain
+
+![](src2/hosts.png)
+
+
+#### Finish and go to website to check:
+
+![](src2/laravel.png)
