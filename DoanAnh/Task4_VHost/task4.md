@@ -290,3 +290,53 @@ wget https://wordpress.org/latest.zip
 - Go to website and check the result:
 
 ![](src3/result.png)
+
+
+<div id='2'></div>
+
+### Laravel 
+We already installed LEMP on Ubuntu 22.04. Now we will install Laravel and Vhost.
+
+1. Create new database:
+```
+sudo mysql -u root -p
+```
+After create new database, we install composer: 
+```
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+sudo chmod +x /usr/local/bin/composer
+```
+
+![](src4/composer.png)
+
+![](src4/composer-v.png)
+
+2. Download and install Laravel
+
+![](src4/install_laravel.png)
+
+![](src4/env.png)
+
+![](src4/env_1.png)
+
+3. Config VHost:
+
+- First, create new file **laravel.training.vn.conf** in /etc/nginx/sites-available/ and write: 
+
+![](src4/config_la.png)
+
+- Create symlink to /etc/nginx/sites-enabled/
+  
+![](src4/symlink.png)
+
+- Edit file /etc/hosts
+
+![](src4/etc.png)
+
+![](src4/last.png)
+
+4. Finished
+- Go to your website with your domain and check
+  
+![](src4/finish.png)
