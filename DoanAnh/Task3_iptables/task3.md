@@ -250,7 +250,7 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 
 <div id='2'></div>
 
-## 3. Read iptables rules to debug
+## 2. Read iptables rules to debug
 
 ### iptables parameter and options: 
 | Parameter | Description |
@@ -317,7 +317,7 @@ iptables -t mangle -A PREROUTING -p tcp -m state --state ESTABLISHED, RELATED -d
 
 <div id='3'></div>
 
-## 4. TRACE module in iptables:
+## 3. TRACE module in iptables:
 
 Module **TRACE** in **raw** table help you more convenient and cleaner way to find out which chains a packet traverses. In raw table have 2 built-in chain: **PREROUTING** and **OUTPUT**, which together cover both input and output of packets.
 
@@ -337,16 +337,23 @@ First, you need to load the logging module:
   modprobe ip6t_LOG
 ```
 
+2. Follow icmp packets from local ping to 1.1.1.1
+![](src/TRACE_3.png)
+
 ![](src/TRACE_1.png)
 
 ![](src/TRACE_2.png)
 
+3. Follow SYN packets to VMs lab:
 
+![](src/syn_1.png)
+
+![](src/syn_2.png)
 
 
 <div id='4'></div>
 
-## 5. tcpdump and another options to debug network
+## 4. tcpdump and another options to debug network
 
 ### tcpdump
 
