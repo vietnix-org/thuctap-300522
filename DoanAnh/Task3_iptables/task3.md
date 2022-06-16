@@ -1,8 +1,8 @@
 # **Task3_Training**
 
 1. <a href='#1'> iptables packet flow diagram
-2. <a href='#2'> Use module TRACE to follow flow of packet
-3. <a href='#3'> Read iptables rules to debug
+2. <a href='#2'> Read iptables rules to debug
+3. <a href='#3'> TRACE module in iptables
 4. <a href='#4'> tcpdumps and another options to debug network
 
 ****
@@ -245,61 +245,10 @@ Note that DNAT & REDIRECT happen in the PREROUTING chain, before any filtering b
 - **Infor:** This chain should first and foremost be used for SNAT. Avoid doing filtering here, since certain packets might pass this chain without ever hitting it. This is also where Masquerading is done. Finally, it goes out on the outgoing interface and out on the wire.
 
 
-*********
+********
+
 
 <div id='2'></div>
-
-## 2. Use module TRACE to follow flow of packet
-
-### Traceroute
-- A traceroute provides a map of how data on the internet travels from your computer to its destination.
-- A traceroute works by sending Internet Control Message Protocol (ICMP) packets, and every router involved in transferring the data gets these packets. The ICMP packets provide information about whether the routers used in the transmission are able to effectively transfer the data.
-
-**Syntax:**
-```
-traceroute domain_name
-```
-
-**Flags:**
-
-![](src/traceroute.png)
-
-### Tracepath
-- **tracepath** command in Linux is used to traces path to destination discovering MTU along this path. It uses UDP port or some random port. It is similar to traceroute, but it does not require superuser privileges and has no fancy options. tracepath6 is a good replacement for traceroute6 and classic example of the application of Linux error queues. The situation with IPv4 is worse because commercial IP routers do not return enough information in ICMP error messages. 
-
-**Syntax:**
-```
-tracepath [-n] [-b] [-l pktlen] [-m max_hops] [-p port] destination
-```
-
-**Examples:**
-
-- n: Do not look up host names. Only print IP addresses numerically
-```
-tracepath -n destination ip or domain name
-```
-
-
-![](src/tracepath_n.png)
-
-- b: The option b, will print hostname and IP Addresses in the output.
-
-``` 
-tracepath -b destination ip or domain name 
-```
-
-![](src/tracepath_b.png
-
-- l: this option for tracepath will allow to set the packet length initially to pktlen. 
-```
-tracepath -l <num> destination ip or domain name
-```
-
-![](src/tracepath_l.png)
-
-
-
-<div id='3'></div>
 
 ## 3. Read iptables rules to debug
 
@@ -366,9 +315,38 @@ iptables -t mangle -A PREROUTING -p tcp -m state --state ESTABLISHED, RELATED -d
 ![](src/iptables_task4.png)
 
 
+<div id='3'></div>
+
+## 4. TRACE module in iptables:
+
+Module **TRACE** in **raw** table help you more convenient and cleaner way to find out which chains a packet traverses. In raw table have 2 built-in chain: **PREROUTING** and **OUTPUT**, which together cover both input and output of packets.
+
+### Example:
+1. Use module TRACE to trace ICMP echo packets:
+``` 
+iptables -t raw -A OUTPUT -p icmp -j TRACE
+iptables -t raw -A PREROUTING -p icmp -j TRACE
+```
+
+Because the info come from the kernel, so to check your logging, use **LOG_KERN**. On most machine, it locate in **/var/log/kern.log** 
+First, you need to load the logging module:
+```
+# for IPv4
+  modprobe ipt_LOG
+# for IPv6
+  modprobe ip6t_LOG
+```
+
+![](src/TRACE_1.png)
+
+![](src/TRACE_2.png)
+
+
+
+
 <div id='4'></div>
 
-## 4. tcpdump and another options to debug network
+## 5. tcpdump and another options to debug network
 
 ### tcpdump
 
