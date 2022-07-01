@@ -40,9 +40,7 @@ tại docroot của mỗi vhost, mấy em tạo file info.php
 sau đó truy cập vào domain/info.php nếu ra đúng user của domain đó thì ok
 
 
-
-
-
+Viết script backup mysql: Mỗi ngày đều backup, lưu trữ file backup tại /home/backup và giữ lại 3 bản gần nhất.
 
 
 

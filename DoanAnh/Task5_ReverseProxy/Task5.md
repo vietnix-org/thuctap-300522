@@ -133,6 +133,8 @@ sudo vi /etc/vsftpd/vsftpd.conf
 ![](src/6.png)
 
 
+<div id='4'></div>
+
 # 4. phpMyAdmin:
 - Install phpMyAdmin with command line in CentOS 7:
 
@@ -142,3 +144,16 @@ sudo yum install phpmyadmin
 
 ![](src/2_1.png)
 
+
+
+
+
+
+
+<div id='5'></div>
+
+# 5. Backup database:
+
+Mysqldump command is used for taking the MySQL backup. The syntax of taking the backup is as follows:
+```
+mysqldump -u root -p 
