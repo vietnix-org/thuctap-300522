@@ -43,7 +43,6 @@ install_nginx_as_rp() {
 "
 
   echo "$apt_conf_proxy" | sudo tee -a $block >/dev/null
-  echo ""
   sudo ln -s $block /etc/nginx/sites-enabled/
 
   echo "Reload the Server"
@@ -73,7 +72,6 @@ nginx_reverse_proxy_check() {
 
 create_new_domain() {
   name=
-  WEB_ROOT_DIR=
   IP=
   user=
   group=
@@ -82,8 +80,7 @@ create_new_domain() {
   sudo useradd $user
   echo "Enter a name of Domain: "
   read name
-  echo "Enter a root directory of Domain(home/'$user'/...): "
-  read WEB_ROOT_DIR
+  WEB_ROOT_DIR='/home/'$user'/'
   echo "Enter the IP of Domain: "
   read IP
   
@@ -101,24 +98,20 @@ create_new_domain() {
 
   ### create virtual host rules file
   echo "
-    <VirtualHost *:80>
+<VirtualHost *:80>
       ServerName $name
-      DocumentRoot $WEB_ROOT_DIR
-      <Directory $WEB_ROOT_DIR/>
-        Options Indexes FollowSymLinks
-        AllowOverride all
-      </Directory>
-      <Directory />
+      DocumentRoot $WEB_ROOT_DIR$name
+      <Directory $WEB_ROOT_DIR>
         Options -Indexes +FollowSymLinks +MultiViews
         AllowOverride All
         Require all granted
       </Directory>
-    </VirtualHost>" > $sitesAvailableDomain
+</VirtualHost>" > $sitesAvailableDomain
   echo -e $"\nNew Virtual Host Created\n"
-  sudo ln -s /etc/httpd/$sitesAvailableDomain $sitesEnabled
+  sudo ln -s $sitesAvailableDomain $sitesEnabled
   sudo systemctl restart httpd 2> /dev/null
   echo "Done, please browse to http://$name to check!"\
-  echo ""
+
   menu
 }
 
