@@ -43,7 +43,6 @@ install_nginx_as_rp() {
 "
 
   echo "$apt_conf_proxy" | sudo tee -a $block >/dev/null
-
   echo ""
   sudo ln -s $block /etc/nginx/sites-enabled/
 
@@ -83,21 +82,21 @@ create_new_domain() {
   sudo useradd $user
   echo "Enter a name of Domain: "
   read name
-  echo "Enter a root directory of Domain(home/'$user'/var/www/html/...): "
+  echo "Enter a root directory of Domain(home/'$user'/...): "
   read WEB_ROOT_DIR
   echo "Enter the IP of Domain: "
   read IP
   
-  sitesEnable='/home/'$user'/etc/httpd/sites-enabled/'
-  sitesAvailable='/home/'$user'/etc/httpd/sites-available/'
-  sitesAvailabledomain=$sitesAvailable$name.conf
-  sudo mkdir -p $sitesEnable
+  sitesEnabled='/etc/httpd/sites-enabled/'
+  sitesAvailable='/etc/httpd/sites-available/'
+  sitesAvailableDomain=$sitesAvailable$name.conf
+  sudo mkdir -p $sitesEnabled
   sudo mkdir -p $sitesAvailable
   sudo mkdir -p $WEB_ROOT_DIR
   sudo chown -R $user: $WEB_ROOT_DIR
-  sudo touch $sitesAvailabledomain
+  sudo touch $sitesAvailableDomain
   sudo sed -i '$a'$IP'\t'$name'' /etc/hosts
-  echo "Creating a vhost for $sitesAvailabledomain with a webroot $WEB_ROOT_DIR"
+  echo "Creating a vhost for $sitesAvailableDomain with a webroot $WEB_ROOT_DIR"
   sudo sed -i '$aIncludeOptional sites-enabled/*.conf' /etc/httpd/conf/httpd.conf
 
   ### create virtual host rules file
@@ -114,12 +113,13 @@ create_new_domain() {
         AllowOverride All
         Require all granted
       </Directory>
-    </VirtualHost>" > $sitesAvailabledomain
+    </VirtualHost>" > $sitesAvailableDomain
   echo -e $"\nNew Virtual Host Created\n"
-  sudo ln -s /etc/httpd/sitesAvailabledomain sitesEnable
+  sudo ln -s /etc/httpd/$sitesAvailableDomain $sitesEnabled
   sudo systemctl restart httpd 2> /dev/null
-  echo "Done, please browse to http://$name to check!"
-
+  echo "Done, please browse to http://$name to check!"\
+  echo ""
+  menu
 }
 
 # Start_service
@@ -136,7 +136,7 @@ start_service() {
 function menu() {
   echo " ------------  Manage Domain Menu ----------- "
   PS3=" ==> Enter the option: "
-  cal=("Create new Domain" "Start_service" "Secure_mysql" "Setup_vhost" "Create_vhost" "Exit_the_program")
+  cal=("Create new Domain" "Start_service" "Secure_mysql" "Exit the program")
   select i in "${cal[@]}"; do
     case $i in
     ${cal[0]})
@@ -153,14 +153,6 @@ function menu() {
       ;;
 
     ${cal[3]})
-      echo "You chose Setup VHost "
-      ;;
-
-    ${cal[4]})
-      echo "You chose Create VHost "
-      ;;
-
-    ${cal[5]})
       echo "Exiting the program...."
       break
       ;;
