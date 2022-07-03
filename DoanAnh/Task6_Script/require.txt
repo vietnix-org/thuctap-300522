@@ -12,3 +12,60 @@ anh chỉ yêu cầu tối thiểu là phải set up đc
 + các cái còn lại options 
 
 
+function install_service() 
+{
+    create_linux_user_and_group() 
+    {
+      command_exists () {
+	      type "${1}" &> /dev/null ;
+      }
+
+      user_in_group(){
+	      groups "${1}" | grep "$2" >/dev/null 2>&1
+      }
+
+      user_exists() {
+	      id -u "${1}" &> /dev/null;
+      }
+      local USERLOGINNAME="${1}"
+	    local GROUPNAME="${2}"
+	    local USER_CNT=1
+	    local GROUP_CNT=1
+      echo -en "Adding new user '${USERLOGINNAME}'...\t\t\t"
+	    USER_CNT=$(getent passwd | grep -c "${USERLOGINNAME}")
+	    if [ ${USER_CNT} -gt 0 ]; then
+		    echo -e "Error, user '${USERLOGINNAME}' already exists"
+		    exit 1;
+	    fi
+      useradd -d "${SITEDIR}" -s /bin/false "${USERLOGINNAME}" >/dev/null 2>&1
+      USER_CNT=$(getent passwd | grep -c "${USERLOGINNAME}")
+      if [ ${USER_CNT} -ne 0]; then 
+        echo -e "Done"
+        NEXTWEBUSER_NUM=$(cat "${NGINX_DIR}/settings.conf" | grep NEXTWEBUSER | cut -d "=" -f 2 | sed s/[^0-9]//g)
+		    NEXTWEBUSER_NAME=$(cat "${NGINX_DIR}/settings.conf" | grep NEXTWEBUSER | cut -d "=" -f 2 | sed s/[^a-zA-Z]//g)
+		    NEXTWEBUSER_NUM_INC=$(expr ${NEXTWEBUSER_NUM} + 1)
+		    sed -i "s@${USERLOGINNAME}@${NEXTWEBUSER_NAME}${NEXTWEBUSER_NUM_INC}@g" "${NGINX_DIR}/settings.conf"
+      else
+        if
+          echo -e "Error, the user ${USERLOGINNAME} does not exist"
+          exit 1;
+        fi
+        echo -en "Adding new group ${GROUPNAME}...\t\t\t"
+        GROUP_CNT=$(getent group | grep -c "${GROUPNAME}")
+        if [ ${GROUP_CNT} -ne 0 ]; then 
+          echo -e "Done"
+          local NEXTWEBGROUP_NUM=$(cat "${NGINX_DIR}/settings.conf" | grep NEXTWEBGROUP | cut -d "=" -f 2 | sed s/[^0-9]//g)
+			    local NEXTWEBGROUP_NAME=$(cat "${NGINX_DIR}/settings.conf" | grep NEXTWEBGROUP | cut -d "=" -f 2 | sed s/[^a-zA-Z]//g)
+		  	  NEXTWEBGROUP_NUM_INC=$(expr ${NEXTWEBGROUP_NUM} + 1)
+		  	  sed -i "s@${GROUPNAME}@${NEXTWEBGROUP_NAME}${NEXTWEBGROUP_NUM_INC}@g" "${NGINX_DIR}/settings.conf" >/dev/null 2>&1
+        else  
+          echo -e "$Error, the group ${GROUPNAME} does not exits"
+          exit 1;
+        fi
+      fi
+
+      echo -en "Adding user ${USERLOGINNAME} to group ${GROUPNAME}...\t\t\t"
+      usermod -a -G ${GROUPNAME} ${USERLOGINNAME} > dev/null 2>&1
+      if user_in_group
+    }
+}

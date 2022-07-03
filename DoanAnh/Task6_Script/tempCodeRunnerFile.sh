@@ -1,0 +1,1 @@
+curl -s -S -I localhost 2> /dev/null | grep "Server" | awk "${2}" 
