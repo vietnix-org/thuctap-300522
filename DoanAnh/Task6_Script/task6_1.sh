@@ -57,16 +57,16 @@ nginx_reverse_proxy_check() {
   URL=
   echo "Input URL of website to check Reverse Proxy: "
   read URL
-  RESPONSE_MESSAGE=$(curl -S -I ${URL} 2>/dev/null | grep "Server" | awk '{print $2}')
+  RESPONSE_MESSAGE=`curl -S -I ${URL} 2>/dev/null | grep "Server" | awk '{print $2}'`
   if [ -z "$RESPONSE_MESSAGE" ]; then
     echo "Server not installed Reverse Proxy yet"
     install_nginx_as_rp
 
-  elif [ "$RESPONSE_MESSAGE" == "nginx"* && "$RESPONSE_MESSAGE" == "Apache"]; then
-    echo "Server already installed Reverse Proxy "
+  elif [ "$RESPONSE_MESSAGE"=="nginx"* ]; then
+    echo "Server already installed Reverse Proxy"
 
   else
-    echo "WARNING - Server not installed Nginx Reverse Proxy yet"
+    echo "WARNING - Server not installed Reverse Proxy yet"
     install_nginx_as_rp
 
   fi
@@ -76,36 +76,48 @@ create_new_domain() {
   name=
   WEB_ROOT_DIR=
   IP=
-
+  user=
+  group=
+  echo "Enter name user of Domain : "
+  read user
+  sudo useradd $user
   echo "Enter a name of Domain: "
   read name
-  echo "Enter a root directory of Domain(/var/www/html/...): "
+  echo "Enter a root directory of Domain(home/'$user'/var/www/html/...): "
   read WEB_ROOT_DIR
   echo "Enter the IP of Domain: "
   read IP
-  sitesEnable='/etc/httpd/sites-enabled/'
-  sitesAvailable='/etc/httpd/sites-available/'
+  
+  sitesEnable='/home/'$user'/etc/httpd/sites-enabled/'
+  sitesAvailable='/home/'$user'/etc/httpd/sites-available/'
+  sitesAvailabledomain=$sitesAvailable$name.conf
   sudo mkdir -p $sitesEnable
   sudo mkdir -p $sitesAvailable
-  sitesAvailabledomain=$sitesAvailable$name.conf
-  sudo mkdir -p $sitesAvailabledomain
+  sudo mkdir -p $WEB_ROOT_DIR
+  sudo chown -R $user: $WEB_ROOT_DIR
+  sudo touch $sitesAvailabledomain
+  sudo sed -i '$a'$IP'\t'$name'' /etc/hosts
   echo "Creating a vhost for $sitesAvailabledomain with a webroot $WEB_ROOT_DIR"
-  sed -i '$aIncludeOptional sites-enabled/*.conf' /etc/httpd/conf/httpd.conf
+  sudo sed -i '$aIncludeOptional sites-enabled/*.conf' /etc/httpd/conf/httpd.conf
 
   ### create virtual host rules file
   echo "
     <VirtualHost *:80>
-      ServerName $name'$host';
+      ServerName $name
+      DocumentRoot $WEB_ROOT_DIR
       <Directory $WEB_ROOT_DIR/>
         Options Indexes FollowSymLinks
         AllowOverride all
       </Directory>
-    </VirtualHost>" >$sitesAvailabledomain
+      <Directory />
+        Options -Indexes +FollowSymLinks +MultiViews
+        AllowOverride All
+        Require all granted
+      </Directory>
+    </VirtualHost>" > $sitesAvailabledomain
   echo -e $"\nNew Virtual Host Created\n"
-
-  sudo tee -a $IP $name\n >/etc/hosts
-  sudo systemctl restart httpd 2>/dev/null
-
+  sudo ln -s /etc/httpd/sitesAvailabledomain sitesEnable
+  sudo systemctl restart httpd 2> /dev/null
   echo "Done, please browse to http://$name to check!"
 
 }
@@ -119,6 +131,8 @@ start_service() {
   sudo systemctl start mysqld 2>/dev/null
 
 }
+
+
 function menu() {
   echo " ------------  Manage Domain Menu ----------- "
   PS3=" ==> Enter the option: "
