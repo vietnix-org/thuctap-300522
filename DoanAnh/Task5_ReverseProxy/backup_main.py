@@ -35,9 +35,12 @@ else:
 
 # Auto remove after 3 days
 now = time.time()
-for folder in os.listdir(BACKUP_PATH):
-    if os.path.getmtime(os.path.join(BACKUP_PATH, folder)) < (now - 3 * 86400):
-        os.rmdir(os.path.join(BACKUP_PATH, folder))
+for dir in os.listdir(BACKUP_PATH):
+        if os.path.isdir(os.path.join(BACKUP_PATH, dir)):
+                if os.path.getmtime(os.path.join(BACKUP_PATH, dir)) < now - 3 * 86400:
+                #if os.path.isdir(dir):
+                        shutil.rmtree(os.path.join(BACKUP_PATH, dir))
+
 
 # Starting actual database backup process.
 if multi:

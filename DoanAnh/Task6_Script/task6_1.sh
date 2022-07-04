@@ -10,19 +10,10 @@ install_nginx_as_rp() {
   block="/etc/nginx/sites-available/$domain"
 
   echo "[ Setup proxy ]"
-  echo -n "Domain:"
-  read domain
-  echo -n "Host: "
-  read PROXY_HOST
-  echo -n "Port: "
+  echo -n "Enter Port of Reverse Proxy: "
   read PROXY_PORT
-  echo -n "Username: "
-  read PROXY_USER
-  echo -n "Password: "
-  read -s PROXY_PASSWORD
-  echo "Updating home dir"
-  sudo mkdir -p /home/$PROXY_USER
-
+  echo -n "Enter Port of Web Server: "
+  read WEB_PORT
   echo_statement "Configuring NGINX reverse proxy server"
   sudo apt-get install epel-realease nginx
   sudo apt-get install nginx-full -y
@@ -30,18 +21,18 @@ install_nginx_as_rp() {
   # Set apt proxy settings
   echo 
   "server {
-      listen $PROXY_PORT;
-      server_name $domain;
+      listen $PROXY_IP:$PROXY_PORT;
+      server_name _;
       access_log /var/log/nginx/access.log;
+      error_log /var/log/nginx/error.log;
       proxy_set_header Host '$host';
       proxy_set_headerr X-Real-IP '$remote_addr';
       proxy_set_header X-Forwarded-For '$proxy_add_x_forwarded_for';
 
       location / {
-           proxy pass http://$PROXY_IP;
+           proxy pass http://$PROXY_IP:$WEB_PORT;
       }
- }
-" >$apt_conf_proxy
+  } " > $apt_conf_proxy
   sudo sed -i '$a'$apt_conf_proxy'' $block
   sudo ln -s $block /etc/nginx/sites-enabled/
 
