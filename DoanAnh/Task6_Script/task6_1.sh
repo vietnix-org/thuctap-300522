@@ -7,7 +7,7 @@ install_nginx_as_rp() {
   PROXY_USER=""
   PROXY_PASSWORD=""
   PROXY_PORT=""
-  block="/etc/ngix/sites-available/$domain"
+  block="/etc/nginx/sites-available/$domain"
 
   echo "[ Setup proxy ]"
   echo -n "Domain:"
@@ -28,6 +28,7 @@ install_nginx_as_rp() {
   sudo apt-get install nginx-full -y
 
   # Set apt proxy settings
+  echo 
   "server {
       listen $PROXY_PORT;
       server_name $domain;
@@ -37,12 +38,11 @@ install_nginx_as_rp() {
       proxy_set_header X-Forwarded-For '$proxy_add_x_forwarded_for';
 
       location / {
-           proxy pass http://$PROXY_IP:$PROXY_PORT;
+           proxy pass http://$PROXY_IP;
       }
  }
-"
-
-  echo "$apt_conf_proxy" | sudo tee -a $block >/dev/null
+" >$apt_conf_proxy
+  sudo sed -i '$a'$apt_conf_proxy'' $block
   sudo ln -s $block /etc/nginx/sites-enabled/
 
   echo "Reload the Server"
