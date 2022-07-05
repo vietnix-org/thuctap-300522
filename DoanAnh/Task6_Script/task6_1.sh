@@ -42,10 +42,14 @@ install_nginx_as_rp() {
            proxy_pass http://$PROXY_IP:$WEB_PORT;
       }
   }" > $block
+  sudo iptables -t raw -I PREROUTING -p tcp --dport 8080 -j ACCEPT
+  
   echo "Reload the Server....."
   sudo nginx -t > /dev/null 2>&1 && sudo service nginx reload >/dev/null 2>&1
   echo "Finished install Reverse Proxy!!!."
 }
+
+
 
 nginx_reverse_proxy_check() {
   URL=
