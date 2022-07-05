@@ -1,44 +1,44 @@
 !#/bin/bash
 
 install_service() {
-    echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
-    sudo apt-get update -y && sudo apt-get upgrade -y
+  echo -e "\n\nUpdating Apt Packages and upgrading latest patches\n"
+  sudo apt-get update -y && sudo apt-get upgrade -y
 
-    echo -e "\n\nInstalling Apache2 Web server\n"
-    
-    sudo apt-get install apache2 apache2-utils 
-    sudo systemctl restart apache2
-    sudo systemctl enable apache2
+  echo -e "\n\nInstalling Apache2 Web server\n"
 
-    echo -e "\n\nInstalling PHP & Requirements\n"
-    sudo apt install software-properties-common apt-transport-https -y
-    sudo add-apt-repository ppa:ondrej/php -y
-    sudo apt update
-    sudo apt upgrade
-    sudo apt install php7.4-fpm php7.4-common libapache2-mod-fcgid php7.4-cli
-    sudo a2enmod proxy_fcgi setenvif && sudo a2enconf php7.4-fpm
+  sudo apt-get install apache2 apache2-utils
+  sudo systemctl restart apache2
+  sudo systemctl enable apache2
 
-    echo -e "\n\nInstalling MySQL\n"
-    sudo apt-get install mysql-server mysql-client -y
+  echo -e "\n\nInstalling PHP & Requirements\n"
+  sudo apt install software-properties-common apt-transport-https -y
+  sudo add-apt-repository ppa:ondrej/php -y
+  sudo apt update
+  sudo apt upgrade
+  sudo apt install php7.4-fpm php7.4-common libapache2-mod-fcgid php7.4-cli
+  sudo a2enmod proxy_fcgi setenvif && sudo a2enconf php7.4-fpm
 
-    echo -e "\n\nRestarting Apache\n"
-    sudo service apache2 restart
+  echo -e "\n\nInstalling MySQL\n"
+  sudo apt-get install mysql-server mysql-client -y
 
-      echo -e "\n\nPermissions for /var/www\n"
-    sudo chmod -R 0755 /var/www/html/
-    sudo chown -R www-data:www-data /var/www/
-    echo -e "\n\n Permissions have been set\n"
+  echo -e "\n\nRestarting Apache\n"
+  sudo service apache2 restart
 
-    echo -e "\n\nInstall Nginx Reverse Proxy Server\n"
-    sudo apt-get install nginx
-    sudo ufw disable
+  echo -e "\n\nPermissions for /var/www\n"
+  sudo chmod -R 0755 /var/www/html/
+  sudo chown -R www-data:www-data /var/www/
+  echo -e "\n\n Permissions have been set\n"
 
-    echo 'Finally Checking status of services'
-    echo Apache service is $(systemctl show -p ActiveState --value apache2)
-    echo Maria DB service is $(systemctl show -p ActiveState --value mysqld)
+  echo -e "\n\nInstall Nginx Reverse Proxy Server\n"
+  sudo apt-get install nginx
+  sudo ufw disable
 
-    echo LAMP setup installed on ubuntu Successfully
-    exit 0
+  echo 'Finally Checking status of services'
+  echo Apache service is $(systemctl show -p ActiveState --value apache2)
+  echo MYSQL service is $(systemctl show -p ActiveState --value mysqld)
+
+  echo LAMP setup installed on ubuntu Successfully
+  exit 0
 
 }
 
@@ -47,20 +47,19 @@ nginx_reverse_proxy_check() {
   a=nginx
   echo "Input URL of website to check Reverse Proxy: "
   read URL
-  RESPONSE_MESSAGE=`curl -S -I ${URL} 2>/dev/null | grep "Server" | awk '{print $2}'`     
+  RESPONSE_MESSAGE=$(curl -S -I ${URL} 2>/dev/null | grep "Server" | awk '{print $2}')
   if [ -z "$RESPONSE_MESSAGE" ]; then
-    echo "Server not installed Reverse Proxy yet"
+    echo -e "Server not installed Reverse Proxy yet\n"
     install_nginx_as_rp
 
   elif [ "$RESPONSE_MESSAGE" == "^nginx$" ]; then
-    echo "Server already installed Reverse Proxy"
+    echo -e "Server already installed Reverse Proxy\n"
 
   else
-    echo "WARNING - Server not installed Reverse Proxy yet"
+    echo -e "WARNING - Server not installed Reverse Proxy yet\n"
     install_nginx_as_rp
   fi
 }
-
 
 install_nginx_as_rp() {
   # Configuration
@@ -71,7 +70,7 @@ install_nginx_as_rp() {
   echo "[ Setup proxy ]"
   echo -n "Enter name of file Reverse-Proxy(/etc/nginx/site_available/....): "
   read rvdomain
-  sitesAvailable='/etc/nginx/sites-available/' 
+  sitesAvailable='/etc/nginx/sites-available/'
   block=$sitesAvailable$rvdomain.conf
   sudo touch $block
   sudo ln -s $block /etc/nginx/sites-enabled/
@@ -82,9 +81,9 @@ install_nginx_as_rp() {
   echo -n "Enter IP proxy_pass: "
   read PROXY_IP
   echo "Installing required service..... Wait for second"
-  sudo yum -y update >/dev/null 2>&1    
-  sudo yum install -y epel-release > /dev/null 2>&1
-  sudo yum -y install nginx > /dev/null 2>&1
+  sudo yum -y update >/dev/null 2>&1
+  sudo yum install -y epel-release >/dev/null 2>&1
+  sudo yum -y install nginx >/dev/null 2>&1
   sudo systemctl start nginx >/dev/null 2>&1
   sudo systemctl enable nginx >/dev/null 2>&1
   # Set apt proxy settings
@@ -101,51 +100,56 @@ install_nginx_as_rp() {
       location / {
            proxy_pass http://$PROXY_IP:$WEB_PORT;
       }
-  }" > $block
+  }" >$block
   sudo iptables -t raw -I PREROUTING -p tcp --dport 8080 -j ACCEPT
-  
+
   echo "Reload the Server....."
-  sudo nginx -t > /dev/null 2>&1 && sudo service nginx reload >/dev/null 2>&1
+  sudo nginx -t >/dev/null 2>&1 && sudo service nginx reload >/dev/null 2>&1
   echo "Finished install Reverse Proxy!!!."
 }
 
 function menu() {
-  echo " ------------  Manage Domain Menu ----------- "
-  PS3=" ==> Enter the option: "
-  cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
-  select i in "${cal[@]}"; do
-    case $i in
-    ${cal[0]})
-      echo "You chose Install Service"
-      install_service
-      ;;
+  while true; do
+    PS3=" ===> Enter the option: "
+    cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
+    echo " ------------  Manage Domain Menu ----------- "
+    select i in "${cal[@]}"; do
+      case $i in
+      ${cal[0]})
+        echo -e "You chose Install Service\n"
+        install_service
+        ;;
 
-    ${cal[1]})
-      echo "You chose Check reverse-proxy and install"
-      nginx_reverse_proxy_check
-      ;;
+      ${cal[1]})
+        echo -e "You chose Check reverse-proxy and install\n"
+        nginx_reverse_proxy_check
 
-    ${cal[2]})
-      echo "You chose Secure MySQL"
-      ;;
+        ;;
 
-    ${cal[3]})
-      echo "You chose Setup VHost"
-      ;;
+      ${cal[2]})
+        echo -e "You chose Secure MySQL\n"
 
-    ${cal[4]})
-      echo "You chose Create VHost"
-      ;;
+        ;;
 
-    ${cal[5]})
-      echo "Exiting the program...."
-      break
-      ;;
+      ${cal[3]})
+        echo -e "You chose Setup VHost\n"
+        ;;
 
-    *)
-      echo "Option no valadition!!"
-      ;;
-    esac
+      ${cal[4]})
+        echo -e "You chose Create VHost\n"
+        ;;
+
+      ${cal[5]})
+        echo "Exiting the program...."
+        break
+        ;;
+
+      *)
+        echo -e "Option no valadition!!\n"
+        ;;
+      esac
+      REPLY=
+    done
   done
 }
 
@@ -155,5 +159,3 @@ main() {
 }
 
 main
-
-
