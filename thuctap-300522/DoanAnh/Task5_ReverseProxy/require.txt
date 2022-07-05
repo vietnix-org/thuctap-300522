@@ -1,0 +1,46 @@
+- Trên máy ảo centos 6 hoặc 7 đã cài đặt, tiến hành cài đặt mô hình:
+Domain: wordpress.training.vn - dựng wordpress
+Domain: laravel.training.vn - dựng laravel
+  + Reverse proxy,
+  + mysql (bật remote mysql từ xa),
+  + vsftpd,
+  + phpmyadmin,
+  + cho phép truy cập port 80, 443, 3306, 22
+  + build wordpress webiste trên chính mô hình trên, cho phép truy cập mysql từ xa và sử dụng được vsftpd
+  + build lavarel website trên chính mô hình trên, cho phép truy cập mysql từ xa và sử dụng được vsftpd
+
+
+
+  ok. 2 đứa làm xong cái reverse proxy + với cái LAMP LEMP rồi giải thích và xử giúp anh 3 trường hợp:
+- khi gõ domain A sẽ ra web A, domain B sẽ ra web B là vì sao? (này dể)
++ khi gõ IP thì nó sẽ ra domain A hay domain B? vì sao? (này cũng dể)(nginx: đi theo thứ tự alpha-bet) (apache: theo thứ tự cài đặt trong httpd.conf)
++ giờ anh muốn gõ IP nó sẽ ra 1 trang khác, gõ domain A sẽ ra 1 trang của domain A, gõ domain B nó sẽ ra thêm 1 trang khác nữa của domain B (Alias / /wp-admin)
+
+- xử lý 3 cái chỗ này vào reverse giúp anh nhá
+
+
+
+
+
+---------------------
+- Trên máy ảo centos 6 hoặc 7 đã cài đặt, tiến hành cài đặt mô hình :
+- Tạo 2 user wordpress, laravel 
+Domain: wordpress.training.vn - dựng wordpress - phải chạy bằng user wordpress
+Domain: laravel.training.vn - dựng laravel - phải chạy bàng user laravel
+  + reverse proxy,
+  + mysql,
+  + phpmyadmin,
+
+
+chỗ này test như sau:
+tại docroot của mỗi vhost, mấy em tạo file info.php
+<php?
+   system("id");
+?>
+sau đó truy cập vào domain/info.php nếu ra đúng user của domain đó thì ok
+
+
+Viết script backup mysql: Mỗi ngày đều backup, lưu trữ file backup tại /home/backup và giữ lại 3 bản gần nhất.
+
+
+
