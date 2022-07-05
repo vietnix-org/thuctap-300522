@@ -10,6 +10,7 @@ install_service() {
   sudo systemctl restart apache2
   sudo systemctl enable apache2
 
+
   echo -e "\n\nInstalling PHP & Requirements\n"
   sudo apt install software-properties-common apt-transport-https -y
   sudo add-apt-repository ppa:ondrej/php -y
@@ -68,7 +69,7 @@ install_nginx_as_rp() {
   PROXY_PORT=""
   WEB_PORT=""
   echo "[ Setup proxy ]"
-  echo -n "Enter name of file Reverse-Proxy(/etc/nginx/site_available/....): "
+  echo -n "Enter name of file Reverse-Proxy(/etc/nginx/site_available/___.conf): "
   read rvdomain
   sitesAvailable='/etc/nginx/sites-available/'
   block=$sitesAvailable$rvdomain.conf
@@ -96,20 +97,19 @@ install_nginx_as_rp() {
       proxy_set_header Host \$host;
       proxy_set_header X-Real-IP \$remote_addr;
       proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
-
       location / {
            proxy_pass http://$PROXY_IP:$WEB_PORT;
       }
-  }" >$block
-  sudo iptables -t raw -I PREROUTING -p tcp --dport 8080 -j ACCEPT
-
+  }" | sudo tee -a $block
+  echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
+  sudo iptables -t raw -I PREROUTING -p tcp --dport 80 -j ACCEPT
+  sudo iptables-save > /dev/null 2>&1
   echo "Reload the Server....."
-  sudo nginx -t >/dev/null 2>&1 && sudo service nginx reload >/dev/null 2>&1
+  sudo nginx -t  && sudo service nginx reload 
   echo "Finished install Reverse Proxy!!!."
 }
 
 function menu() {
-  while true; do
     PS3=" ===> Enter the option: "
     cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
     echo " ------------  Manage Domain Menu ----------- "
@@ -123,7 +123,6 @@ function menu() {
       ${cal[1]})
         echo -e "You chose Check reverse-proxy and install\n"
         nginx_reverse_proxy_check
-
         ;;
 
       ${cal[2]})
@@ -149,7 +148,6 @@ function menu() {
         ;;
       esac
       REPLY=
-    done
   done
 }
 

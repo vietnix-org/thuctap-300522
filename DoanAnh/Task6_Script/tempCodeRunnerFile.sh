@@ -1,1 +1,2 @@
-sudo apt-get update -y && sudo apt-get upgrade -y
+ and upgrading latest patches\n"
+  sudo apt-get update -y && sudo apt-
