@@ -5,14 +5,18 @@ install_service() {
     sudo apt-get update -y && sudo apt-get upgrade -y
 
     echo -e "\n\nInstalling Apache2 Web server\n"
-    sudo apt-get install apache2 apache2-utils ssl-cert -y
+    
+    sudo apt-get install apache2 apache2-utils 
     sudo systemctl restart apache2
+    sudo systemctl enable apache2
 
     echo -e "\n\nInstalling PHP & Requirements\n"
-    sudo apt install software-properties-common ca-certificates lsb-release apt-transport-https 
-    LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php 
+    sudo apt install software-properties-common apt-transport-https -y
+    sudo add-apt-repository ppa:ondrej/php -y
     sudo apt update
-    sudo apt-get install libapache2-mod-php7. php7.3 php7.3-common php7.3-mysql php7.3-cli php7.3-fpm -y
+    sudo apt upgrade
+    sudo apt install php7.4-fpm php7.4-common libapache2-mod-fcgid php7.4-cli
+    sudo a2enmod proxy_fcgi setenvif && sudo a2enconf php7.4-fpm
 
     echo -e "\n\nInstalling MySQL\n"
     sudo apt-get install mysql-server mysql-client -y
