@@ -98,6 +98,7 @@ create_new_domain() {
 
   ### create virtual host rules file
   echo " 
+
 <VirtualHost *:8080>
       ServerName $name
       DocumentRoot $WEB_ROOT_DIR$name
