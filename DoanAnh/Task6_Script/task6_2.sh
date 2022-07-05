@@ -109,22 +109,24 @@ install_nginx_as_rp() {
 }
 
 create_databases() {
+  echo "Creating MySQL user and database"
+  echo -e "\nInput name of Database: \n"
+  read DB_NAME
+  echo -e "Input user of Databse: \n"
+  read DB_USER
+  echo -e "Input password of Databse: \n"
+  read DB_PASS
 
-  Q1="CREATE DATABASE IF NOT EXISTS ${DB_NAME};"
-  Q2="CREATE USER '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASS}';"
-  Q3="GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';"
-  Q4="FLUSH PRIVILEGES;"
-  SQL="${Q1}${Q2}${Q3}${Q4}"
+  mysql -u root <<MYSQL_SCRIPT
+CREATE DATABASE $DB_NAME;
+CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PASS';
+GRANT ALL PRIVILEGES ON $DB_NAME.* TO '$DB_USER'@'localhost';
+FLUSH PRIVILEGES;
+MYSQL_SCRIPT
 
-  echo "Please enter root user MySQL password!"
-  read rootPassword
-  mysql -u root -p${rootPassword} -e "$SQL"
-
-  echo "MySQL DB / User creation completed!"
-  echo " >> Host      : ${DB_HOST}"
-  echo " >> Database  : ${DB_NAME}"
-  echo " >> User      : ${DB_USER}"
-  echo " >> Pass      : ${DB_PASS}"
+  echo "MySQL user and database created."
+  echo "Username:   $DB_USER"
+  echo "Database:   $DB_NAME"
 
 }
 
@@ -133,10 +135,9 @@ create_user_group() {
   read USERNAME
   echo "Enter a new group for user: "
   read USERGROUP
-
-  groupadd $USERGROUP
-  useradd -d /home/$USERNAME -g $USERGROUP -s /bin/bash -m $USERNAME
-  passwd $USERNAME
+  sudo groupadd $USERGROUP
+  sudo useradd -d /home/$USERNAME -g $USERGROUP -s /bin/bash -m $USERNAME
+  sudo passwd $USERNAME
   id $USERNAME
 
   echo "Add a user successfully"
@@ -144,10 +145,7 @@ create_user_group() {
 
 setup_vhost() {
 
-
 }
-
-
 
 create_new_domain() {
   name=
@@ -155,31 +153,31 @@ create_new_domain() {
   user=
   group=
   echo "Enter name user of Domain : "
-  read user
+  read USER
   #sudo useradd $user
   echo "Enter a name of Domain: "
-  read name
+  read NAME
   WEB_ROOT_DIR='/home/'$user'/'
   echo "Enter the IP of Domain: "
   read IP
 
   sitesEnabled='/etc/httpd/sites-enabled/'
   sitesAvailable='/etc/httpd/sites-available/'
-  sitesAvailableDomain=$sitesAvailable$name.conf
+  sitesAvailableDomain=$sitesAvailable$NAME.conf
   sudo mkdir -p $sitesEnabled
   sudo mkdir -p $sitesAvailable
   sudo mkdir -p $WEB_ROOT_DIR
-  sudo chown -R $user: $WEB_ROOT_DIR
+  sudo chown -R $USER : $WEB_ROOT_DIR
   sudo touch $sitesAvailableDomain
-  sudo sed -i '$a'$IP'\t'$name'' /etc/hosts
+  sudo sed -i '$a'$IP'\t'$NAME'' /etc/hosts
   echo "Creating a vhost for $sitesAvailableDomain with a webroot $WEB_ROOT_DIR"
   sudo sed -i '$aIncludeOptional sites-enabled/*.conf' /etc/httpd/conf/httpd.conf
 
   ### create virtual host rules file
   echo " 
 <VirtualHost *:8080>
-      ServerName $name
-      DocumentRoot $WEB_ROOT_DIR$name
+      ServerName $NAME
+      DocumentRoot $WEB_ROOT_DIR$NAME
       access_log /var/log/httpd/access.log
       error_log /var/log/httpd/error.log
       <Directory $WEB_ROOT_DIR>
@@ -191,7 +189,7 @@ create_new_domain() {
   echo -e $"\nNew Virtual Host Created\n"
   sudo ln -s $sitesAvailableDomain $sitesEnabled
   sudo systemctl restart httpd 2>/dev/null
-  echo "Done, please browse to http://$name to check!"
+  echo "Done, please browse to http://$NAME to check!"
 
 }
 
