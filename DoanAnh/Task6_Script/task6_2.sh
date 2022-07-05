@@ -59,6 +59,8 @@ nginx_reverse_proxy_check() {
     echo -e "WARNING - Server not installed Reverse Proxy yet\n"
     install_nginx_as_rp
   fi
+
+  main
 }
 
 install_nginx_as_rp() {
@@ -106,6 +108,8 @@ install_nginx_as_rp() {
   echo "Reload the Server....."
   sudo nginx -t && sudo service nginx reload
   echo "Finished install Reverse Proxy!!!."
+
+  main
 }
 
 create_databases() {
@@ -139,17 +143,31 @@ create_user_group() {
   sudo useradd -d /home/$USERNAME -g $USERGROUP -s /bin/bash -m $USERNAME
   sudo passwd $USERNAME
   id $USERNAME
-
   echo "Add a user successfully"
+  exit 0;
 }
 
 setup_vhost() {
   PS3=" ===> Enter the option: "
-  cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
+  cal=("Create new user and group" "Create new Database" "Back to main menu")
   echo " ------------  Manage Domain Menu ----------- "
   select i in "${cal[@]}"; do
     case $i in
     ${cal[0]})
+      echo "Create new user and group"
+      ;;
+    ${cal[1]})
+      echo "Create new Database"
+      ;;
+    ${cal[2]}
+      echo "Back to main menu"
+      main
+      ;;
+    *)
+      break
+      ;;
+    esac
+  done
 }
 
 create_new_domain() {
@@ -198,7 +216,7 @@ create_new_domain() {
 
 }
 
-function menu() {
+function main() {
   PS3=" ===> Enter the option: "
   cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
   echo " ------------  Manage Domain Menu ----------- "
@@ -207,7 +225,6 @@ function menu() {
     ${cal[0]})
       echo -e "You chose Install Service\n"
       install_service
-      menu
       ;;
 
     ${cal[1]})
@@ -239,11 +256,6 @@ function menu() {
     esac
     REPLY=
   done
-}
-
-main() {
-  menu
-
 }
 
 main
