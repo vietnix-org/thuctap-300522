@@ -98,7 +98,11 @@ create_new_domain() {
 
   ### create virtual host rules file
   echo " 
+<<<<<<< HEAD
 <VirtualHost *:8080>
+=======
+<VirtualHost *:80>
+>>>>>>> origin/doananh
       ServerName $name
       DocumentRoot $WEB_ROOT_DIR$name
       access_log /var/log/httpd/access.log
@@ -114,6 +118,10 @@ create_new_domain() {
   sudo systemctl restart httpd 2> /dev/null
   echo "Done, please browse to http://$name to check!"
 
+<<<<<<< HEAD
+=======
+  menu
+>>>>>>> origin/doananh
 }
 
 # Start_service

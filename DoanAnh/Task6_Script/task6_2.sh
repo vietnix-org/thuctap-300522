@@ -10,12 +10,20 @@ install_service() {
   sudo systemctl restart apache2
   sudo systemctl enable apache2
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/doananh
   echo -e "\n\nInstalling PHP & Requirements\n"
   sudo apt install software-properties-common apt-transport-https -y
   sudo add-apt-repository ppa:ondrej/php -y
   sudo apt update
   sudo apt upgrade
+<<<<<<< HEAD
   sudo apt install php7.4-fpm php7.4-common libapache2-mod-fcgid php7.4-cli php7.4-gd php7.4-curl php7.4-dev php7.4-xml php7.4-xmlrpc
+=======
+  sudo apt install php7.4-fpm php7.4-common libapache2-mod-fcgid php7.4-cli
+>>>>>>> origin/doananh
   sudo a2enmod proxy_fcgi setenvif && sudo a2enconf php7.4-fpm
 
   echo -e "\n\nInstalling MySQL\n"
@@ -100,6 +108,7 @@ install_nginx_as_rp() {
            proxy_pass http://$PROXY_IP:$WEB_PORT;
       }
   }" | sudo tee -a $block
+<<<<<<< HEAD
   echo "Listen 8080" | sudo tee /etc/apache2/ports.conf >/dev/null 2>&1
   sudo iptables -t raw -I PREROUTING -p tcp --dport 80 -j ACCEPT
   sudo iptables-save >/dev/null 2>&1
@@ -233,6 +242,55 @@ function menu() {
       ;;
     esac
     REPLY=
+=======
+  echo "Listen 8080" | sudo tee /etc/apache2/ports.conf
+  sudo iptables -t raw -I PREROUTING -p tcp --dport 80 -j ACCEPT
+  sudo iptables-save > /dev/null 2>&1
+  echo "Reload the Server....."
+  sudo nginx -t  && sudo service nginx reload 
+  echo "Finished install Reverse Proxy!!!."
+}
+
+function menu() {
+    PS3=" ===> Enter the option: "
+    cal=("install_service" "Check reverse-proxy and install (if not)" "secure_mysql" "setup_vhost" "create_vhost" "Exit the program")
+    echo " ------------  Manage Domain Menu ----------- "
+    select i in "${cal[@]}"; do
+      case $i in
+      ${cal[0]})
+        echo -e "You chose Install Service\n"
+        install_service
+        ;;
+
+      ${cal[1]})
+        echo -e "You chose Check reverse-proxy and install\n"
+        nginx_reverse_proxy_check
+        ;;
+
+      ${cal[2]})
+        echo -e "You chose Secure MySQL\n"
+
+        ;;
+
+      ${cal[3]})
+        echo -e "You chose Setup VHost\n"
+        ;;
+
+      ${cal[4]})
+        echo -e "You chose Create VHost\n"
+        ;;
+
+      ${cal[5]})
+        echo "Exiting the program...."
+        break
+        ;;
+
+      *)
+        echo -e "Option no valadition!!\n"
+        ;;
+      esac
+      REPLY=
+>>>>>>> origin/doananh
   done
 }
 
@@ -241,4 +299,8 @@ main() {
 
 }
 
+<<<<<<< HEAD
 main
+=======
+main
+>>>>>>> origin/doananh
