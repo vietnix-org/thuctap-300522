@@ -1,0 +1,14 @@
+Hai đứa viết giúp anh 1 cái scripts để  quản lý domains (vhost) trên server web, tính năng như sau:
+- Nếu server chưa cài reverse proxy thì cài vào (chạy script lần đầu)
+- Nếu server đã cài reverse proxy rồi (chỉ tính trường hợp lý tưởng là cài từ script của mình)
+    + sẽ cho phép người dùng tạo 1 domain mới (user mới, vhost mới) để upload web của họ lên (đảm bảo docroot của domain nằm trong /home/<user>)
+    + cho phép xoá domain đã tồn tại trên webserver (options)
+    + các tính năng khác: list domain, kiểm tra domain đã tồn tại chưa...(options)
+
+
+anh chỉ yêu cầu tối thiểu là phải set up đc 
++ RP trên vps trắng
++ tạo đc domain mới, user mới cho web server
++ các cái còn lại options 
+
+
