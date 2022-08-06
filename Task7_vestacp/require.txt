@@ -1,0 +1,21 @@
+2 đứa làm xong cái script ổn ổn mỗi đứa nghiên cứu giúp anh cách panel nó bố trí file như nào: 
+- vestacp
+- aapanel
+
+Cài panel vào vps
+
+Xong add domain
+
+Add user vào
+
+Coi khi em tạo thêm domain thì vhost nó gắn vào file nào
+
+Src web nó đặt về đâu
+
+Do panel nó quy định, google sẽ ra
+
+Mà a cần 2 đứa mò trc
+
+Sau này đỡ bối rối
+
+2 đứa pick đi nhá
